@@ -1,0 +1,1582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MCFR Operations Portal</title>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Source+Sans+3:wght@300;400;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   MCFR OPERATIONS PORTAL — FULL BUILD
+   Navy + Gold | Rajdhani display | Source Sans 3 body
+   ============================================================ */
+
+:root {
+  --navy:       #0a1628;
+  --navy-mid:   #112040;
+  --navy-light: #1a3060;
+  --gold:       #c9a84c;
+  --gold-bright:#f0c040;
+  --gold-dim:   #8a6f2e;
+  --red:        #d94040;
+  --green:      #2ecc71;
+  --amber:      #f39c12;
+  --blue:       #4a90d9;
+  --orange:     #e67e22;
+  --text:       #e8eaf0;
+  --text-dim:   #8090b0;
+  --border:     rgba(201,168,76,0.2);
+  --card:       rgba(17,32,64,0.85);
+  --card-hover: rgba(26,48,96,0.9);
+  --sidebar-w:  230px;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  font-family: 'Source Sans 3', sans-serif;
+  background: var(--navy);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: '';
+  position: fixed; inset:0;
+  background-image:
+    linear-gradient(rgba(201,168,76,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(201,168,76,0.025) 1px, transparent 1px);
+  background-size: 48px 48px;
+  pointer-events: none; z-index:0;
+}
+
+/* ===== LOGIN SCREEN ===== */
+#login-screen {
+  position: fixed; inset:0;
+  background: linear-gradient(135deg, #060e1c 0%, #0d1e3a 50%, #08121f 100%);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 1000;
+  flex-direction: column;
+  gap: 0;
+}
+
+#login-screen::before {
+  content: '';
+  position: absolute; inset:0;
+  background-image:
+    linear-gradient(rgba(201,168,76,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(201,168,76,0.04) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+.login-box {
+  position: relative;
+  background: rgba(17,32,64,0.9);
+  border: 1px solid rgba(201,168,76,0.3);
+  border-radius: 12px;
+  padding: 48px 52px;
+  width: 420px;
+  max-width: 90vw;
+  box-shadow: 0 24px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(201,168,76,0.1);
+  text-align: center;
+}
+
+.login-logo {
+  margin-bottom: 28px;
+}
+
+.login-logo svg {
+  width: 72px; height: 72px;
+}
+
+.login-title {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--gold);
+  letter-spacing: 1px;
+  margin-bottom: 4px;
+}
+
+.login-sub {
+  font-size: 12px;
+  color: var(--text-dim);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 36px;
+}
+
+.login-label {
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  font-weight: 600;
+  display: block;
+  text-align: left;
+  margin-bottom: 8px;
+}
+
+.login-input {
+  width: 100%;
+  background: rgba(8,16,31,0.8);
+  border: 1px solid rgba(201,168,76,0.25);
+  border-radius: 6px;
+  padding: 12px 16px;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 14px;
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.2s;
+  margin-bottom: 8px;
+}
+
+.login-input:focus {
+  border-color: var(--gold);
+}
+
+.login-input::placeholder {
+  color: var(--text-dim);
+}
+
+.login-btn {
+  width: 100%;
+  background: linear-gradient(135deg, var(--gold-dim), var(--gold));
+  border: none;
+  border-radius: 6px;
+  padding: 13px;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: var(--navy);
+  cursor: pointer;
+  margin-top: 8px;
+  transition: opacity 0.15s, transform 0.1s;
+}
+
+.login-btn:hover { opacity: 0.9; }
+.login-btn:active { transform: scale(0.99); }
+
+.login-error {
+  font-size: 12px;
+  color: #ff6b6b;
+  margin-top: 10px;
+  min-height: 18px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+
+.login-footer {
+  margin-top: 28px;
+  font-size: 11px;
+  color: rgba(128,144,176,0.5);
+  letter-spacing: 0.5px;
+}
+
+/* ===== PORTAL (hidden until login) ===== */
+#portal { display: none; position: relative; z-index:1; }
+
+/* ===== SIDEBAR ===== */
+.sidebar {
+  position: fixed; left:0; top:0; bottom:0;
+  width: var(--sidebar-w);
+  background: linear-gradient(180deg, #07101e 0%, #0c1c37 100%);
+  border-right: 1px solid var(--border);
+  display: flex; flex-direction: column;
+  z-index: 100;
+  overflow-y: auto;
+}
+
+.sidebar-logo {
+  padding: 22px 18px 18px;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; gap:12px;
+  flex-shrink: 0;
+}
+
+.sidebar-logo svg { width:40px; height:40px; flex-shrink:0; }
+
+.logo-text { display:flex; flex-direction:column; }
+.logo-text .dept {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 14px; font-weight: 700;
+  color: var(--gold); letter-spacing: 1px; line-height:1;
+}
+.logo-text .sub {
+  font-size: 9px; color: var(--text-dim);
+  letter-spacing: 2px; text-transform: uppercase; margin-top:3px;
+}
+
+.nav { flex:1; padding: 14px 0; }
+
+.nav-section {
+  padding: 8px 16px 4px;
+  font-size: 9px; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--gold-dim); font-weight:700;
+}
+
+.nav-item {
+  display: flex; align-items: center; gap:9px;
+  padding: 8px 18px; cursor: pointer;
+  transition: all 0.15s; font-size: 13px;
+  color: var(--text-dim); border-left: 3px solid transparent;
+  font-weight: 400; position: relative; user-select: none;
+}
+.nav-item:hover { background: rgba(201,168,76,0.06); color: var(--text); border-left-color: var(--gold-dim); }
+.nav-item.active { background: rgba(201,168,76,0.1); color: var(--gold); border-left-color: var(--gold); font-weight:600; }
+.nav-item .icon { font-size:15px; width:18px; text-align:center; }
+.nav-badge {
+  margin-left:auto; background: var(--red); color:#fff;
+  font-size:10px; font-weight:700; padding: 1px 6px;
+  border-radius: 10px; font-family: 'JetBrains Mono', monospace;
+}
+
+.sidebar-footer {
+  padding: 14px 18px; border-top: 1px solid var(--border);
+  font-size: 11px; color: var(--text-dim); flex-shrink:0;
+}
+.shift-indicator { display:flex; align-items:center; gap:8px; margin-bottom:6px; }
+.shift-dot {
+  width:8px; height:8px; border-radius:50%; background: var(--green);
+  box-shadow: 0 0 6px var(--green); animation: pulse 2s infinite;
+}
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+
+/* ===== MAIN ===== */
+.main {
+  margin-left: var(--sidebar-w);
+  min-height: 100vh; position:relative; z-index:1;
+}
+
+/* ===== TOPBAR ===== */
+.topbar {
+  background: rgba(7,16,30,0.96);
+  border-bottom: 1px solid var(--border);
+  padding: 0 26px; height: 56px;
+  display: flex; align-items: center; justify-content: space-between;
+  position: sticky; top:0; z-index:50;
+  backdrop-filter: blur(12px);
+}
+.topbar-left { display:flex; flex-direction:column; }
+.page-title {
+  font-family: 'Rajdhani', sans-serif; font-size:19px; font-weight:700;
+  color: var(--text); letter-spacing:0.5px; line-height:1;
+}
+.page-sub { font-size:11px; color: var(--text-dim); margin-top:2px; }
+.topbar-right { display:flex; align-items:center; gap:16px; }
+.live-badge {
+  display:flex; align-items:center; gap:6px;
+  background: rgba(46,204,113,0.1); border: 1px solid rgba(46,204,113,0.3);
+  padding: 4px 10px; border-radius:4px; font-size:11px; color: var(--green);
+  font-family: 'JetBrains Mono', monospace; font-weight:600; letter-spacing:1px;
+}
+.live-dot { width:6px; height:6px; border-radius:50%; background: var(--green); animation: pulse 1.5s infinite; }
+.alert-chip {
+  display:flex; align-items:center; gap:6px;
+  background: rgba(217,64,64,0.12); border: 1px solid rgba(217,64,64,0.35);
+  padding: 4px 10px; border-radius:4px; font-size:11px; color:#ff6b6b; font-weight:600;
+}
+.time-display { font-family: 'JetBrains Mono', monospace; font-size:13px; color: var(--gold); font-weight:600; }
+
+/* ===== CONTENT ===== */
+.content { padding: 22px 26px; }
+.page-section { display:none; }
+.page-section.active { display:block; }
+
+/* ===== ALERT BANNER ===== */
+.alert-banner {
+  background: linear-gradient(135deg, rgba(217,64,64,0.15), rgba(217,64,64,0.05));
+  border: 1px solid rgba(217,64,64,0.4); border-left: 4px solid var(--red);
+  border-radius:6px; padding:11px 16px; margin-bottom:18px;
+  display:flex; align-items:center; gap:12px;
+}
+.alert-banner .alert-icon { font-size:18px; }
+.alert-banner .alert-text .label {
+  font-family: 'Rajdhani', sans-serif; font-size:12px; font-weight:700;
+  color:#ff6b6b; letter-spacing:1px; text-transform:uppercase;
+}
+.alert-banner .alert-text .msg { font-size:12px; color: var(--text); margin-top:1px; }
+.alert-time { margin-left:auto; font-family: 'JetBrains Mono', monospace; font-size:10px; color: var(--text-dim); }
+
+/* ===== WEATHER STRIP ===== */
+.weather-strip {
+  background: rgba(8,16,31,0.6); border: 1px solid var(--border);
+  border-radius:8px; padding:12px 18px; margin-bottom:18px;
+  display:flex; align-items:center; gap:24px; flex-wrap:wrap;
+}
+.weather-item { display:flex; flex-direction:column; align-items:center; gap:2px; }
+.weather-label { font-size:9px; letter-spacing:1.5px; text-transform:uppercase; color: var(--text-dim); font-weight:600; }
+.weather-value { font-family: 'Rajdhani', sans-serif; font-size:22px; font-weight:700; color: var(--text); line-height:1; }
+.weather-value.hot { color: var(--amber); }
+.weather-value.danger { color: var(--red); }
+.weather-divider { width:1px; height:34px; background: var(--border); flex-shrink:0; }
+.kbdi-gauge { flex:1; min-width:200px; }
+.kbdi-label { font-size:9px; letter-spacing:1.5px; text-transform:uppercase; color: var(--text-dim); font-weight:600; margin-bottom:6px; }
+.kbdi-track { height:7px; background: rgba(255,255,255,0.06); border-radius:4px; overflow:hidden; margin-bottom:4px; }
+.kbdi-fill { height:100%; background: linear-gradient(90deg, #2ecc71, #f39c12, var(--red)); border-radius:4px; transition: width 1s ease; }
+.kbdi-sub { display:flex; justify-content:space-between; font-size:10px; color: var(--text-dim); font-family: 'JetBrains Mono', monospace; }
+
+/* ===== STAT ROW ===== */
+.stat-row { display:grid; grid-template-columns: repeat(5,1fr); gap:12px; margin-bottom:18px; }
+.stat-card {
+  background: var(--card); border: 1px solid var(--border); border-radius:8px;
+  padding:14px 16px; position:relative; overflow:hidden;
+  transition: all 0.2s; cursor:default;
+}
+.stat-card::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:2px; background: var(--gold); opacity:0.5;
+}
+.stat-card.red::before { background: var(--red); }
+.stat-card.green::before { background: var(--green); }
+.stat-card.amber::before { background: var(--amber); }
+.stat-card.blue::before { background: var(--blue); }
+.stat-card:hover { background: var(--card-hover); border-color: rgba(201,168,76,0.35); transform: translateY(-1px); }
+.stat-label { font-size:9px; letter-spacing:1.5px; text-transform:uppercase; color: var(--text-dim); font-weight:700; margin-bottom:6px; }
+.stat-value { font-family: 'Rajdhani', sans-serif; font-size:32px; font-weight:700; line-height:1; color: var(--text); }
+.stat-value.gold { color: var(--gold); }
+.stat-value.red { color: var(--red); }
+.stat-value.green { color: var(--green); }
+.stat-value.amber { color: var(--amber); }
+.stat-sub { font-size:11px; color: var(--text-dim); margin-top:4px; }
+.stat-delta { font-size:11px; font-weight:600; margin-top:3px; }
+.stat-delta.up { color: var(--red); }
+.stat-delta.down { color: var(--green); }
+
+/* ===== LAYOUT GRIDS ===== */
+.two-col { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px; }
+.three-col { display:grid; grid-template-columns:2fr 1fr; gap:16px; margin-bottom:16px; }
+.full-row { margin-bottom:16px; }
+
+/* ===== PANEL ===== */
+.panel { background: var(--card); border: 1px solid var(--border); border-radius:8px; overflow:hidden; }
+.panel-header {
+  padding:12px 16px; border-bottom: 1px solid var(--border);
+  display:flex; align-items:center; justify-content:space-between;
+  background: rgba(7,16,30,0.5);
+}
+.panel-title {
+  font-family: 'Rajdhani', sans-serif; font-size:14px; font-weight:700;
+  letter-spacing:0.5px; color: var(--text); display:flex; align-items:center; gap:7px;
+}
+.panel-title .icon { color: var(--gold); font-size:14px; }
+.panel-action { font-size:11px; color: var(--gold); cursor:pointer; font-weight:600; opacity:0.8; }
+.panel-action:hover { opacity:1; text-decoration:underline; }
+.panel-body { padding:14px 16px; }
+
+/* ===== STATION GRID ===== */
+.station-grid { display:grid; grid-template-columns: repeat(4,1fr); gap:8px; padding:12px; }
+.station-card {
+  background: rgba(8,16,31,0.6); border: 1px solid rgba(201,168,76,0.15);
+  border-radius:6px; padding:9px 11px; transition: all 0.15s; cursor:pointer;
+}
+.station-card:hover { border-color: var(--gold); background: rgba(201,168,76,0.05); }
+.station-card.alert { border-color: rgba(217,64,64,0.5); background: rgba(217,64,64,0.05); }
+.station-card.ot { border-color: rgba(243,156,18,0.4); }
+.station-num { font-family: 'Rajdhani', sans-serif; font-size:12px; font-weight:700; color: var(--gold); letter-spacing:1px; }
+.station-name { font-size:10px; color: var(--text-dim); margin-top:1px; margin-bottom:6px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.unit-row { display:flex; flex-wrap:wrap; gap:4px; margin-top:4px; }
+.unit-badge {
+  font-family: 'JetBrains Mono', monospace; font-size:8px; font-weight:600;
+  padding: 2px 5px; border-radius:3px; letter-spacing:0.3px;
+}
+.unit-badge.engine { background: rgba(201,168,76,0.15); color: var(--gold); border: 1px solid rgba(201,168,76,0.3); }
+.unit-badge.rescue { background: rgba(46,204,113,0.12); color: var(--green); border: 1px solid rgba(46,204,113,0.3); }
+.unit-badge.ladder { background: rgba(217,64,64,0.12); color: #ff8080; border: 1px solid rgba(217,64,64,0.3); }
+.unit-badge.medic { background: rgba(100,149,237,0.15); color: #6495ed; border: 1px solid rgba(100,149,237,0.3); }
+.unit-badge.air { background: rgba(160,100,237,0.15); color: #b06aed; border: 1px solid rgba(160,100,237,0.3); }
+.staff-count { font-size:10px; color: var(--text-dim); margin-top:5px; display:flex; align-items:center; gap:4px; }
+.staff-pip { display:inline-block; width:5px; height:5px; border-radius:50%; background: var(--green); }
+.staff-pip.ot { background: var(--amber); }
+.staff-pip.callback { background: var(--red); }
+
+/* ===== ROSTER TABLE ===== */
+.roster-table { width:100%; border-collapse:collapse; }
+.roster-table th {
+  font-size:9px; letter-spacing:1.5px; text-transform:uppercase; color: var(--gold-dim);
+  font-weight:700; padding:8px 12px; text-align:left; border-bottom: 1px solid var(--border);
+  background: rgba(7,16,30,0.5);
+}
+.roster-table td {
+  padding:8px 12px; font-size:12px; color: var(--text);
+  border-bottom: 1px solid rgba(201,168,76,0.05);
+}
+.roster-table tr:hover td { background: rgba(201,168,76,0.04); }
+.roster-table .search-row td { background: rgba(7,16,30,0.5); padding:8px 10px; }
+
+.rank-badge {
+  font-size:9px; font-weight:700; padding: 2px 7px; border-radius:3px;
+  font-family: 'Rajdhani', sans-serif; letter-spacing:0.5px; white-space:nowrap;
+}
+.rank-badge.dc   { background: rgba(201,168,76,0.25); color: var(--gold-bright); }
+.rank-badge.bc   { background: rgba(201,168,76,0.18); color: var(--gold); }
+.rank-badge.capt { background: rgba(100,149,237,0.15); color: #6495ed; }
+.rank-badge.lt   { background: rgba(46,204,113,0.12); color: var(--green); }
+.rank-badge.de   { background: rgba(160,82,45,0.2); color: #cd853f; }
+.rank-badge.ff   { background: rgba(120,120,160,0.15); color: #9090c0; }
+.rank-badge.spec { background: rgba(160,100,237,0.12); color: #b06aed; }
+
+.status-pill {
+  font-size:9px; font-weight:700; padding: 2px 8px; border-radius:10px;
+  font-family: 'JetBrains Mono', monospace; white-space:nowrap;
+}
+.status-pill.on       { background: rgba(46,204,113,0.12); color: var(--green); border: 1px solid rgba(46,204,113,0.3); }
+.status-pill.ot       { background: rgba(243,156,18,0.12); color: var(--amber); border: 1px solid rgba(243,156,18,0.3); }
+.status-pill.callback { background: rgba(217,64,64,0.1); color:#ff6b6b; border: 1px solid rgba(217,64,64,0.25); }
+.status-pill.supp     { background: rgba(230,126,34,0.12); color: var(--orange); border: 1px solid rgba(230,126,34,0.3); }
+.status-pill.sw       { background: rgba(74,144,217,0.12); color: var(--blue); border: 1px solid rgba(74,144,217,0.3); }
+
+/* ===== SEARCH INPUT ===== */
+.search-input {
+  background: rgba(8,16,31,0.8); border: 1px solid rgba(201,168,76,0.2);
+  border-radius:5px; padding: 7px 12px; font-family: 'Source Sans 3', sans-serif;
+  font-size:13px; color: var(--text); outline:none; width:100%; transition: border-color 0.2s;
+}
+.search-input:focus { border-color: var(--gold); }
+.search-input::placeholder { color: var(--text-dim); }
+
+/* ===== ANNOUNCEMENTS ===== */
+.announcement-list { }
+.announcement-item {
+  padding:12px 16px; border-bottom: 1px solid rgba(201,168,76,0.07);
+  display:flex; gap:12px; transition: background 0.15s; cursor:pointer;
+}
+.announcement-item:hover { background: rgba(201,168,76,0.04); }
+.announcement-item:last-child { border-bottom:none; }
+.ann-priority { width:3px; border-radius:2px; flex-shrink:0; align-self:stretch; }
+.ann-priority.high { background: var(--red); }
+.ann-priority.med  { background: var(--amber); }
+.ann-priority.low  { background: var(--gold-dim); }
+.ann-content { flex:1; }
+.ann-title { font-size:13px; font-weight:600; color: var(--text); margin-bottom:3px; }
+.ann-body  { font-size:11px; color: var(--text-dim); line-height:1.5; }
+.ann-meta  { display:flex; gap:10px; margin-top:5px; font-size:10px; color: var(--text-dim); flex-wrap:wrap; }
+.ann-tag {
+  background: rgba(201,168,76,0.1); color: var(--gold-dim);
+  padding: 1px 6px; border-radius:3px; font-weight:600;
+  text-transform:uppercase; font-size:9px; letter-spacing:0.5px;
+}
+
+/* ===== CERT GRID ===== */
+.cert-grid { display:grid; grid-template-columns: repeat(3,1fr); gap:10px; padding:14px; }
+.cert-card {
+  background: rgba(8,16,31,0.5); border: 1px solid var(--border);
+  border-radius:6px; padding:11px 13px;
+}
+.cert-name { font-size:11px; font-weight:700; color: var(--text); letter-spacing:0.5px; margin-bottom:7px; text-transform:uppercase; font-family:'Rajdhani', sans-serif; }
+.cert-bar-wrap { height:5px; background: rgba(255,255,255,0.06); border-radius:3px; overflow:hidden; margin-bottom:4px; }
+.cert-bar-fill { height:100%; border-radius:3px; background: linear-gradient(90deg, var(--gold-dim), var(--gold)); transition: width 1s ease; }
+.cert-bar-fill.warn { background: linear-gradient(90deg, #8b4513, var(--amber)); }
+.cert-bar-fill.danger { background: linear-gradient(90deg, #4a0000, var(--red)); }
+.cert-stats { display:flex; justify-content:space-between; font-size:10px; color: var(--text-dim); font-family:'JetBrains Mono', monospace; }
+
+/* ===== TAB NAV ===== */
+.tab-nav { display:flex; border-bottom: 1px solid var(--border); padding: 0 16px; background: rgba(7,16,30,0.3); }
+.tab-item {
+  padding: 9px 14px; font-size:11px; font-weight:600;
+  color: var(--text-dim); cursor:pointer; border-bottom: 2px solid transparent;
+  margin-bottom:-1px; transition: all 0.15s; letter-spacing:0.3px;
+}
+.tab-item:hover { color: var(--text); }
+.tab-item.active { color: var(--gold); border-bottom-color: var(--gold); }
+
+/* ===== CHART ===== */
+.chart-area { padding:14px 16px; }
+.chart-bars { display:flex; align-items:flex-end; gap:5px; height:110px; border-bottom: 1px solid var(--border); padding-bottom:6px; }
+.bar-group { flex:1; display:flex; flex-direction:column; align-items:center; gap:2px; height:100%; justify-content:flex-end; }
+.bar { width:100%; border-radius:3px 3px 0 0; transition: opacity 0.2s; cursor:pointer; }
+.bar:hover { opacity:0.8; }
+.bar.ems   { background: linear-gradient(180deg, var(--gold), var(--gold-dim)); }
+.bar.fire  { background: linear-gradient(180deg, var(--red), #8b0000); }
+.bar.other { background: linear-gradient(180deg, var(--blue), #2c5f8a); }
+.bar-label { font-size:9px; color: var(--text-dim); font-family:'JetBrains Mono', monospace; margin-top:5px; text-align:center; }
+.chart-legend { display:flex; gap:14px; margin-top:10px; }
+.legend-item { display:flex; align-items:center; gap:5px; font-size:11px; color: var(--text-dim); }
+.legend-dot { width:8px; height:8px; border-radius:2px; }
+
+/* ===== ANIMATIONS ===== */
+@keyframes fadeIn { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:translateY(0)} }
+.stat-card { animation: fadeIn 0.35s ease both; }
+.stat-card:nth-child(1){animation-delay:0.05s}
+.stat-card:nth-child(2){animation-delay:0.1s}
+.stat-card:nth-child(3){animation-delay:0.15s}
+.stat-card:nth-child(4){animation-delay:0.2s}
+.stat-card:nth-child(5){animation-delay:0.25s}
+
+/* ===== ROSTER IMPORT NOTICE ===== */
+.import-notice {
+  background: rgba(201,168,76,0.08); border: 1px dashed rgba(201,168,76,0.3);
+  border-radius:6px; padding:10px 14px; margin:12px 16px;
+  font-size:11px; color: var(--gold-dim); text-align:center;
+  display:flex; align-items:center; justify-content:center; gap:8px;
+}
+.file-upload-btn {
+  background: rgba(201,168,76,0.15); border: 1px solid rgba(201,168,76,0.3);
+  border-radius:4px; padding: 4px 10px; color: var(--gold);
+  font-size:11px; cursor:pointer; font-weight:600; transition: background 0.15s;
+}
+.file-upload-btn:hover { background: rgba(201,168,76,0.25); }
+#roster-file-input { display:none; }
+
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar { width:5px; height:5px; }
+::-webkit-scrollbar-track { background: rgba(8,16,31,0.5); }
+::-webkit-scrollbar-thumb { background: rgba(201,168,76,0.3); border-radius:3px; }
+</style>
+</head>
+<body>
+
+<!-- ==============================
+     LOGIN SCREEN
+     ============================== -->
+<div id="login-screen">
+  <div class="login-box">
+    <div class="login-logo">
+      <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M50 5 L62 30 L95 18 L83 50 L95 82 L62 70 L50 95 L38 70 L5 82 L17 50 L5 18 L38 30 Z" fill="#c9a84c" opacity="0.12" stroke="#c9a84c" stroke-width="1.5"/>
+        <path d="M50 14 L61 33 L80 25 L72 44 L90 50 L72 56 L80 75 L61 67 L50 86 L39 67 L20 75 L28 56 L10 50 L28 44 L20 25 L39 33 Z" fill="#c9a84c" opacity="0.25"/>
+        <circle cx="50" cy="50" r="18" fill="#c9a84c" opacity="0.85"/>
+        <circle cx="50" cy="50" r="12" fill="#0a1628"/>
+        <text x="50" y="54" text-anchor="middle" font-size="9" font-weight="800" fill="#c9a84c" font-family="Rajdhani,sans-serif">MCFR</text>
+      </svg>
+    </div>
+    <div class="login-title">Martin County Fire Rescue</div>
+    <div class="login-sub">Operations Portal</div>
+    <label class="login-label">County Email Address</label>
+    <input type="email" class="login-input" id="login-email" placeholder="yourname@martin.fl.us" autocomplete="email" />
+    <button class="login-btn" onclick="handleLogin()">ACCESS PORTAL</button>
+    <div class="login-error" id="login-error"></div>
+    <div class="login-footer">Restricted to Martin County personnel only</div>
+  </div>
+</div>
+
+<!-- ==============================
+     PORTAL
+     ============================== -->
+<div id="portal">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M50 14 L61 33 L80 25 L72 44 L90 50 L72 56 L80 75 L61 67 L50 86 L39 67 L20 75 L28 56 L10 50 L28 44 L20 25 L39 33 Z" fill="#c9a84c" opacity="0.3"/>
+        <circle cx="50" cy="50" r="15" fill="#c9a84c" opacity="0.85"/>
+        <circle cx="50" cy="50" r="9" fill="#0a1628"/>
+        <text x="50" y="53" text-anchor="middle" font-size="7" font-weight="800" fill="#c9a84c" font-family="Rajdhani,sans-serif">MCFR</text>
+      </svg>
+      <div class="logo-text">
+        <span class="dept">Martin County</span>
+        <span class="sub">Fire Rescue</span>
+      </div>
+    </div>
+    <nav class="nav">
+      <div class="nav-section">Operations</div>
+      <div class="nav-item active" onclick="showPage('dashboard', this)"><span class="icon">⬛</span> Dashboard</div>
+      <div class="nav-item" onclick="showPage('sitrep', this)"><span class="icon">📡</span> SitRep / Weather</div>
+      <div class="nav-item" onclick="showPage('units', this)"><span class="icon">🚒</span> Unit Status</div>
+      <div class="nav-item" onclick="showPage('calls', this)"><span class="icon">📞</span> Call Data</div>
+      <div class="nav-section" style="margin-top:8px">Personnel</div>
+      <div class="nav-item" onclick="showPage('roster', this)"><span class="icon">👥</span> On-Duty Roster</div>
+      <div class="nav-item" onclick="showPage('training', this)"><span class="icon">🎓</span> Training & Certs</div>
+      <div class="nav-section" style="margin-top:8px">Admin</div>
+      <div class="nav-item" onclick="showPage('announcements', this)"><span class="icon">📢</span> Announcements</div>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="shift-indicator">
+        <div class="shift-dot"></div>
+        <span style="font-weight:600;color:var(--text)" id="shift-label">C Shift On Duty</span>
+      </div>
+      <div id="footer-stats">Loading roster...</div>
+      <div style="margin-top:4px;font-size:10px" id="footer-date"></div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+    <div class="topbar">
+      <div class="topbar-left">
+        <div class="page-title" id="page-title-text">Operations Dashboard</div>
+        <div class="page-sub" id="page-sub-text">Martin County Fire Rescue</div>
+      </div>
+      <div class="topbar-right">
+        <div class="alert-chip" id="weather-alert-chip" style="display:none">🔴 RED FLAG WARNING</div>
+        <div class="live-badge"><div class="live-dot"></div> LIVE</div>
+        <div class="time-display" id="clock">--:--:--</div>
+      </div>
+    </div>
+
+    <div class="content">
+
+      <!-- ==================== DASHBOARD ==================== -->
+      <div id="page-dashboard" class="page-section active">
+
+        <div class="weather-strip" id="weather-strip">
+          <div class="weather-item"><div class="weather-label">Temp</div><div class="weather-value hot" id="w-temp">--°F</div></div>
+          <div class="weather-divider"></div>
+          <div class="weather-item"><div class="weather-label">Humidity</div><div class="weather-value" id="w-rh">--%</div></div>
+          <div class="weather-divider"></div>
+          <div class="weather-item"><div class="weather-label">Wind</div><div class="weather-value" id="w-wind">-- mph</div></div>
+          <div class="weather-divider"></div>
+          <div class="weather-item"><div class="weather-label">Direction</div><div class="weather-value" id="w-dir">--</div></div>
+          <div class="weather-divider"></div>
+          <div class="kbdi-gauge">
+            <div class="kbdi-label">KBDI — Keetch–Byram Drought Index</div>
+            <div class="kbdi-track"><div class="kbdi-fill" id="kbdi-fill" style="width:0%"></div></div>
+            <div class="kbdi-sub"><span>0</span><span id="kbdi-label" style="color:var(--text-dim)">-- / 800</span><span>800</span></div>
+          </div>
+        </div>
+
+        <div class="stat-row">
+          <div class="stat-card gold">
+            <div class="stat-label">On Duty</div>
+            <div class="stat-value gold" id="stat-onduty">--</div>
+            <div class="stat-sub" id="stat-onduty-sub">Loading...</div>
+          </div>
+          <div class="stat-card green">
+            <div class="stat-label">Stations Staffed</div>
+            <div class="stat-value green" id="stat-stations">--</div>
+            <div class="stat-sub" id="stat-stations-sub">of 13 total</div>
+          </div>
+          <div class="stat-card amber">
+            <div class="stat-label">Overtime</div>
+            <div class="stat-value amber" id="stat-ot">--</div>
+            <div class="stat-sub">Personnel on OT</div>
+          </div>
+          <div class="stat-card red">
+            <div class="stat-label">Callbacks</div>
+            <div class="stat-value red" id="stat-cb">--</div>
+            <div class="stat-sub">SUCP / Callback</div>
+          </div>
+          <div class="stat-card blue">
+            <div class="stat-label">Apparatus</div>
+            <div class="stat-value" id="stat-apparatus" style="color:var(--blue)">--</div>
+            <div class="stat-sub">Units deployed</div>
+          </div>
+        </div>
+
+        <div class="three-col">
+          <!-- STATION BOARD -->
+          <div class="panel">
+            <div class="panel-header">
+              <div class="panel-title"><span class="icon">🚒</span> Unit Status — All Stations</div>
+              <div class="panel-action" onclick="showPage('units', document.querySelector('.nav-item:nth-child(5)'))">View Full →</div>
+            </div>
+            <div class="station-grid" id="dashboard-station-grid">
+              <div style="grid-column:1/-1;text-align:center;padding:20px;color:var(--text-dim);font-size:12px">Loading roster data...</div>
+            </div>
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:16px">
+            <!-- CALL VOLUME CHART -->
+            <div class="panel">
+              <div class="panel-header">
+                <div class="panel-title"><span class="icon">📞</span> Call Volume — 7 Day Trend</div>
+              </div>
+              <div class="tab-nav">
+                <div class="tab-item active">Weekly</div>
+                <div class="tab-item">By Type</div>
+              </div>
+              <div class="chart-area">
+                <div class="chart-bars" id="call-chart-bars">
+                  <!-- Generated by JS -->
+                </div>
+                <div class="chart-legend">
+                  <div class="legend-item"><div class="legend-dot" style="background:var(--gold)"></div>EMS</div>
+                  <div class="legend-item"><div class="legend-dot" style="background:var(--red)"></div>Fire</div>
+                  <div class="legend-item"><div class="legend-dot" style="background:var(--blue)"></div>Other</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ANNOUNCEMENTS PREVIEW -->
+            <div class="panel">
+              <div class="panel-header">
+                <div class="panel-title"><span class="icon">📢</span> Announcements</div>
+                <div class="panel-action" onclick="showPage('announcements', document.querySelector('.nav-item:nth-child(11)'))">All →</div>
+              </div>
+              <div class="announcement-list" id="dash-announcements"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== SITREP ==================== -->
+      <div id="page-sitrep" class="page-section">
+        <div class="panel full-row">
+          <div class="panel-header">
+            <div class="panel-title"><span class="icon">📡</span> Situational Awareness — Weather & Fire Conditions</div>
+            <div class="panel-action">
+              <a href="https://dhays641.github.io/MCFR-SIT-REP" target="_blank" style="color:var(--gold);text-decoration:none">Open Full SitRep ↗</a>
+            </div>
+          </div>
+          <div class="panel-body">
+            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:20px">
+              <div class="stat-card" style="animation:none">
+                <div class="stat-label">Temperature</div>
+                <div class="stat-value hot" id="sr-temp">--°F</div>
+                <div class="stat-sub" id="sr-temp-sub">Stuart, FL</div>
+              </div>
+              <div class="stat-card" style="animation:none">
+                <div class="stat-label">Rel. Humidity</div>
+                <div class="stat-value" id="sr-rh">--%</div>
+                <div class="stat-sub">Critical below 25%</div>
+              </div>
+              <div class="stat-card" style="animation:none">
+                <div class="stat-label">Wind Speed</div>
+                <div class="stat-value" id="sr-wind">-- mph</div>
+                <div class="stat-sub" id="sr-wind-dir">Direction --</div>
+              </div>
+              <div class="stat-card amber" style="animation:none">
+                <div class="stat-label">KBDI Index</div>
+                <div class="stat-value amber" id="sr-kbdi">--</div>
+                <div class="stat-sub" id="sr-kbdi-sub">of 800 max</div>
+              </div>
+            </div>
+            <div class="panel" style="margin-bottom:16px">
+              <div class="panel-header"><div class="panel-title"><span class="icon">🌡️</span> NWS Active Alerts — Martin County</div></div>
+              <div class="panel-body" id="nws-alerts-body" style="font-size:13px;color:var(--text-dim)">
+                Fetching NWS alerts...
+              </div>
+            </div>
+            <div class="panel">
+              <div class="panel-header"><div class="panel-title"><span class="icon">🔥</span> Fire Weather Assessment</div></div>
+              <div class="panel-body" id="fire-weather-body" style="font-size:13px"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== UNIT STATUS ==================== -->
+      <div id="page-units" class="page-section">
+        <div class="panel full-row">
+          <div class="panel-header">
+            <div class="panel-title"><span class="icon">🚒</span> Unit Status — All Stations</div>
+            <div style="font-size:11px;color:var(--text-dim)" id="units-roster-date"></div>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;padding:14px" id="full-station-grid">
+            <div style="grid-column:1/-1;text-align:center;padding:20px;color:var(--text-dim)">Loading...</div>
+          </div>
+        </div>
+        <!-- IMPORT BUTTON -->
+        <div class="panel full-row">
+          <div class="panel-header"><div class="panel-title"><span class="icon">📁</span> Update Roster Data</div></div>
+          <div class="import-notice">
+            <span>Drop a new Daily_Roster.html export here to refresh</span>
+            <label for="roster-file-input" class="file-upload-btn">Choose File</label>
+            <input type="file" id="roster-file-input" accept=".html,.htm" onchange="loadRosterFile(event)">
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== CALLS ==================== -->
+      <div id="page-calls" class="page-section">
+        <div class="two-col">
+          <div class="panel">
+            <div class="panel-header"><div class="panel-title"><span class="icon">📊</span> Call Volume — Last 7 Days</div></div>
+            <div class="tab-nav">
+              <div class="tab-item active" onclick="switchTab(this, 'weekly')">Weekly</div>
+              <div class="tab-item" onclick="switchTab(this, 'monthly')">Monthly</div>
+              <div class="tab-item" onclick="switchTab(this, 'bytype')">By Type</div>
+            </div>
+            <div class="chart-area">
+              <div class="chart-bars" id="calls-chart-bars"></div>
+              <div class="chart-legend">
+                <div class="legend-item"><div class="legend-dot" style="background:var(--gold)"></div>EMS</div>
+                <div class="legend-item"><div class="legend-dot" style="background:var(--red)"></div>Fire</div>
+                <div class="legend-item"><div class="legend-dot" style="background:var(--blue)"></div>Other</div>
+              </div>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel-header"><div class="panel-title"><span class="icon">📈</span> Call Summary</div></div>
+            <div class="panel-body">
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+                <div class="stat-card" style="animation:none"><div class="stat-label">Today</div><div class="stat-value gold">47</div><div class="stat-sub">Total calls</div></div>
+                <div class="stat-card" style="animation:none"><div class="stat-label">This Week</div><div class="stat-value" style="color:var(--blue)">312</div><div class="stat-sub">7-day total</div></div>
+                <div class="stat-card" style="animation:none"><div class="stat-label">EMS %</div><div class="stat-value green">74%</div><div class="stat-sub">of all calls</div></div>
+                <div class="stat-card amber" style="animation:none"><div class="stat-label">Fire %</div><div class="stat-value amber">14%</div><div class="stat-sub">of all calls</div></div>
+              </div>
+              <div style="margin-top:14px;padding:12px;background:rgba(8,16,31,0.5);border-radius:6px;border:1px solid var(--border)">
+                <div style="font-size:11px;color:var(--text-dim);margin-bottom:8px;letter-spacing:1px;text-transform:uppercase;font-weight:700">Data Source</div>
+                <div style="font-size:12px;color:var(--text-dim)">Call volume data will populate automatically once ImageTrend CSV exports are connected via the Zapier pipeline. Figures shown are representative placeholders.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== ROSTER ==================== -->
+      <div id="page-roster" class="page-section">
+        <div class="panel full-row">
+          <div class="panel-header">
+            <div class="panel-title"><span class="icon">👥</span> On-Duty Roster</div>
+            <div style="font-size:11px;color:var(--text-dim)" id="roster-count-label"></div>
+          </div>
+          <div class="search-row" style="padding:10px 12px;border-bottom:1px solid var(--border);background:rgba(7,16,30,0.4)">
+            <input type="text" class="search-input" placeholder="Search by name, rank, station, or ID..." oninput="filterRoster(this.value)" id="roster-search">
+          </div>
+          <div style="overflow-x:auto">
+            <table class="roster-table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Rank</th>
+                  <th>ID</th>
+                  <th>Station / Apparatus</th>
+                  <th>Hours</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="roster-tbody">
+                <tr><td colspan="6" style="text-align:center;padding:24px;color:var(--text-dim)">Loading roster...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== TRAINING ==================== -->
+      <div id="page-training" class="page-section">
+        <div class="panel full-row">
+          <div class="panel-header">
+            <div class="panel-title"><span class="icon">🎓</span> Certification Compliance Dashboard</div>
+            <div style="font-size:11px;color:var(--text-dim)">Based on 350 total personnel</div>
+          </div>
+          <div class="cert-grid">
+            <div class="cert-card">
+              <div class="cert-name">Firefighter II</div>
+              <div class="cert-bar-wrap"><div class="cert-bar-fill" style="width:98%"></div></div>
+              <div class="cert-stats"><span>Current</span><span>343/350</span></div>
+            </div>
+            <div class="cert-card">
+              <div class="cert-name">Paramedic (PM)</div>
+              <div class="cert-bar-wrap"><div class="cert-bar-fill" style="width:94%"></div></div>
+              <div class="cert-stats"><span>Current</span><span>329/350</span></div>
+            </div>
+            <div class="cert-card">
+              <div class="cert-name">Haz-Mat Ops</div>
+              <div class="cert-bar-wrap"><div class="cert-bar-fill warn" style="width:79%"></div></div>
+              <div class="cert-stats"><span style="color:var(--amber)">Watch</span><span>277/350</span></div>
+            </div>
+            <div class="cert-card">
+              <div class="cert-name">ACLS</div>
+              <div class="cert-bar-wrap"><div class="cert-bar-fill warn" style="width:72%"></div></div>
+              <div class="cert-stats"><span style="color:var(--amber)">Watch</span><span>252/350</span></div>
+            </div>
+            <div class="cert-card">
+              <div class="cert-name">Aerial (AER)</div>
+              <div class="cert-bar-wrap"><div class="cert-bar-fill" style="width:88%"></div></div>
+              <div class="cert-stats"><span>Current</span><span>308/350</span></div>
+            </div>
+            <div class="cert-card">
+              <div class="cert-name">Haz-Mat Tech (HM1)</div>
+              <div class="cert-bar-wrap"><div class="cert-bar-fill warn" style="width:68%"></div></div>
+              <div class="cert-stats"><span style="color:var(--amber)">Watch</span><span>238/350</span></div>
+            </div>
+            <div class="cert-card">
+              <div class="cert-name">Swift Water (SW)</div>
+              <div class="cert-bar-wrap"><div class="cert-bar-fill" style="width:95%"></div></div>
+              <div class="cert-stats"><span>Current</span><span>333/350</span></div>
+            </div>
+            <div class="cert-card">
+              <div class="cert-name">SRT Level 1</div>
+              <div class="cert-bar-wrap"><div class="cert-bar-fill danger" style="width:52%"></div></div>
+              <div class="cert-stats"><span style="color:var(--red)">Action Req</span><span>182/350</span></div>
+            </div>
+            <div class="cert-card">
+              <div class="cert-name">Marine Rescue (MRU)</div>
+              <div class="cert-bar-wrap"><div class="cert-bar-fill" style="width:83%"></div></div>
+              <div class="cert-stats"><span>Current</span><span>291/350</span></div>
+            </div>
+          </div>
+          <div style="padding:12px 14px;border-top:1px solid var(--border);font-size:11px;color:var(--text-dim)">
+            Certification data will auto-populate from TeleStaff exports once connected. Figures shown are representative.
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== ANNOUNCEMENTS ==================== -->
+      <div id="page-announcements" class="page-section">
+        <div class="panel full-row">
+          <div class="panel-header">
+            <div class="panel-title"><span class="icon">📢</span> Department Announcements</div>
+          </div>
+          <div class="announcement-list" id="full-announcements"></div>
+        </div>
+      </div>
+
+    </div><!-- /content -->
+  </main><!-- /main -->
+</div><!-- /portal -->
+
+<script>
+// ================================================================
+//  MCFR OPERATIONS PORTAL — JAVASCRIPT ENGINE
+// ================================================================
+
+// ---- LOGIN ----
+function handleLogin() {
+  const email = document.getElementById('login-email').value.trim().toLowerCase();
+  const err   = document.getElementById('login-error');
+
+  if (!email) {
+    err.textContent = 'Please enter your county email address.';
+    return;
+  }
+
+  if (!email.endsWith('@martin.fl.us')) {
+    err.textContent = 'Access restricted to @martin.fl.us email addresses only.';
+    document.getElementById('login-email').style.borderColor = 'var(--red)';
+    return;
+  }
+
+  // Valid — show portal
+  document.getElementById('login-screen').style.display = 'none';
+  document.getElementById('portal').style.display = 'block';
+  initPortal();
+}
+
+document.getElementById('login-email').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') handleLogin();
+  document.getElementById('login-error').textContent = '';
+  this.style.borderColor = '';
+});
+
+// ---- CLOCK ----
+function updateClock() {
+  const now = new Date();
+  const h = String(now.getHours()).padStart(2,'0');
+  const m = String(now.getMinutes()).padStart(2,'0');
+  const s = String(now.getSeconds()).padStart(2,'0');
+  document.getElementById('clock').textContent = h+':'+m+':'+s;
+}
+setInterval(updateClock, 1000);
+updateClock();
+
+// ---- PAGE NAVIGATION ----
+const pageTitles = {
+  dashboard:     ['Operations Dashboard', 'Martin County Fire Rescue'],
+  sitrep:        ['SitRep / Weather', 'Situational Awareness'],
+  units:         ['Unit Status', 'All Stations — Current Shift'],
+  calls:         ['Call Data', 'Incident Volume & Analytics'],
+  roster:        ['On-Duty Roster', 'Current Shift Personnel'],
+  training:      ['Training & Certifications', 'Compliance Dashboard'],
+  announcements: ['Announcements', 'Department Communications']
+};
+
+function showPage(page, el) {
+  document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('page-' + page).classList.add('active');
+  if (el) el.classList.add('active');
+  const t = pageTitles[page] || [page, ''];
+  document.getElementById('page-title-text').textContent = t[0];
+  document.getElementById('page-sub-text').textContent = t[1];
+  // Sync sitrep weather when opening
+  if (page === 'sitrep') syncSitrepWeather();
+}
+
+// ---- TAB SWITCHING ----
+function switchTab(el, tabId) {
+  el.closest('.tab-nav').querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+}
+
+// ---- CALL CHART ----
+const callData = [
+  {day:'MON', ems:68, fire:11, other:8},
+  {day:'TUE', ems:61, fire:7,  other:10},
+  {day:'WED', ems:79, fire:14, other:6},
+  {day:'THU', ems:55, fire:9,  other:11},
+  {day:'FRI', ems:73, fire:17, other:8},
+  {day:'SAT', ems:88, fire:19, other:10},
+  {day:'SUN', ems:47, fire:8,  other:7},
+];
+
+function buildCallChart(containerId) {
+  const el = document.getElementById(containerId);
+  if (!el) return;
+  const maxVal = Math.max(...callData.map(d => d.ems + d.fire + d.other));
+  el.innerHTML = callData.map(d => {
+    const total = d.ems + d.fire + d.other;
+    const ems_h   = Math.round((d.ems   / maxVal) * 95);
+    const fire_h  = Math.round((d.fire  / maxVal) * 95);
+    const other_h = Math.round((d.other / maxVal) * 95);
+    return \`<div class="bar-group">
+      <div class="bar ems"   style="height:\${ems_h}%"   title="EMS: \${d.ems}"></div>
+      <div class="bar fire"  style="height:\${fire_h}%"  title="Fire: \${d.fire}"></div>
+      <div class="bar other" style="height:\${other_h}%" title="Other: \${d.other}"></div>
+      <div class="bar-label">\${d.day}</div>
+    </div>\`;
+  }).join('');
+}
+
+// ---- ROSTER DATA ----
+let rosterData = { date: '', stations: {}, allPersonnel: [] };
+
+// Parse the embedded roster HTML
+function parseRosterHTML(htmlText) {
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(htmlText, 'text/html');
+
+  const result = { date: '', stations: {}, allPersonnel: [] };
+
+  // Get date
+  const dateMatch = htmlText.match(/\[(\d{2}\/\d{2}\/\d{4})\]/);
+  if (dateMatch) result.date = dateMatch[1];
+
+  // Get all table rows
+  const rows = doc.querySelectorAll('tr');
+  let currentStation = null;
+  let currentApparatus = null;
+
+  rows.forEach(row => {
+    const cells = row.querySelectorAll('td');
+    const texts = Array.from(cells).map(c => c.textContent.trim()).filter(t => t && t !== '\u00a0');
+
+    if (!texts.length) return;
+
+    const fullText = texts.join(' | ');
+
+    // Station header
+    const staMatch = fullText.match(/Station (\d+)[^|]*\/ (.+)/);
+    if (staMatch) {
+      const num = staMatch[1];
+      const app = staMatch[2].trim();
+      if (!result.stations[num]) {
+        result.stations[num] = { num, apparatus: [], personnel: [] };
+      }
+      currentStation = num;
+      currentApparatus = app;
+      if (!result.stations[num].apparatus.includes(app)) {
+        result.stations[num].apparatus.push(app);
+      }
+      return;
+    }
+
+    // Battalion/division header — skip
+    if (fullText.includes('Operations Division') || fullText.includes('Battalion') && texts.length < 4) return;
+
+    // Personnel row — look for employee ID pattern
+    if (!currentStation) return;
+
+    const idMatch = texts.find(t => /^\d{3,4}$/.test(t));
+    const nameMatch = texts.find(t => /^[A-Z][a-zA-Z]+,\s*[A-Z]/.test(t));
+
+    if (idMatch && nameMatch) {
+      const rank = texts[0] || '';
+
+      // Determine status from background color
+      let status = 'ON DUTY';
+      cells.forEach(cell => {
+        const bg = cell.style.backgroundColor || '';
+        if (bg.includes('255, 255, 0')) status = 'OVERTIME';
+        else if (bg.includes('255, 0, 0')) status = 'CALLBACK';
+        else if (bg.includes('255, 127, 63')) status = 'SUPP OT';
+        else if (bg.includes('0, 128, 0')) status = 'SWIFT WATER';
+      });
+
+      const hours = texts.find(t => /^\d+(\.\d+)?$/.test(t) && parseFloat(t) >= 1) || '24';
+
+      const person = {
+        name: nameMatch,
+        rank: rank,
+        id: idMatch,
+        station: currentStation,
+        apparatus: currentApparatus,
+        status: status,
+        hours: hours
+      };
+
+      result.stations[currentStation].personnel.push(person);
+      result.allPersonnel.push(person);
+    }
+  });
+
+  return result;
+}
+
+function getRankBadge(rank) {
+  const r = rank.toLowerCase();
+  if (r.includes('district chief') || r.includes('division')) return ['dc', 'DIST CHIEF'];
+  if (r.includes('battalion') || r.includes('7 battalion')) return ['bc', 'BAT CHIEF'];
+  if (r.includes('ems captain') || r.includes('6 ems')) return ['capt', 'EMS CAPT'];
+  if (r.includes('captain') || r.includes('5 captain')) return ['capt', 'CAPTAIN'];
+  if (r.includes('lieutenant') || r.includes('4 lieutenant')) return ['lt', 'LT'];
+  if (r.includes('driver') || r.includes('3 driver')) return ['de', 'DRIVER ENG'];
+  if (r.includes('mechanic') || r.includes('duty officer') || r.includes('coordinator')) return ['spec', 'SPECIALIST'];
+  return ['ff', 'FF/PM'];
+}
+
+function getStatusPill(status) {
+  switch(status) {
+    case 'OVERTIME':    return ['ot', 'OVERTIME'];
+    case 'CALLBACK':    return ['callback', 'CALLBACK'];
+    case 'SUPP OT':     return ['supp', 'SUPP OT'];
+    case 'SWIFT WATER': return ['sw', 'SWIFT WATER'];
+    default:            return ['on', 'ON DUTY'];
+  }
+}
+
+function getApparatusBadge(app) {
+  if (!app) return '';
+  const a = app.toLowerCase();
+  if (a.includes('lifestar') || a.includes('air')) return 'air';
+  if (a.includes('ladder')) return 'ladder';
+  if (a.includes('rescue') || a.includes('medic')) return 'rescue';
+  return 'engine';
+}
+
+function getApparatusLabel(app) {
+  if (!app) return '';
+  // Extract short unit ID
+  const m = app.match(/(Engine|Rescue|Ladder|Medic|LifeStar)\s*([\w\/]+)?/i);
+  if (!m) return app.split('/').pop().trim().substring(0,8);
+  const type = m[1].substring(0,3).toUpperCase();
+  const num  = m[2] ? m[2].substring(0,4) : '';
+  return type + (num ? '-' + num : '');
+}
+
+function buildStationCard(sta, data, compact) {
+  const otCount = data.personnel.filter(p => p.status === 'OVERTIME' || p.status === 'SUPP OT').length;
+  const cbCount = data.personnel.filter(p => p.status === 'CALLBACK').length;
+  const hasAlert = cbCount > 0;
+  const hasOT    = otCount > 0 && !hasAlert;
+
+  const apps = data.apparatus.map(a => {
+    const cls = getApparatusBadge(a);
+    const lbl = getApparatusLabel(a);
+    return \`<span class="unit-badge \${cls}">\${lbl}</span>\`;
+  }).join('');
+
+  const pipCls = cbCount > 0 ? 'callback' : otCount > 0 ? 'ot' : '';
+  const pipLabel = \`\${data.personnel.length} personnel\${otCount ? ' · ' + otCount + ' OT' : ''}\${cbCount ? ' · ' + cbCount + ' CB' : ''}\`;
+
+  return \`<div class="station-card \${hasAlert?'alert':hasOT?'ot':''}">
+    <div class="station-num">STA \${sta}</div>
+    <div class="station-name">\${data.apparatus[0] ? data.apparatus[0].split('/').pop().trim().replace(/Engine |Rescue |Ladder\/Engine |Medic /,'').substring(0,18) : ''}</div>
+    <div class="unit-row">\${apps}</div>
+    <div class="staff-count"><span class="staff-pip \${pipCls}"></span>\${pipLabel}</div>
+  </div>\`;
+}
+
+function buildRosterRow(p) {
+  const [rbCls, rbLabel] = getRankBadge(p.rank);
+  const [spCls, spLabel] = getStatusPill(p.status);
+  return \`<tr data-search="\${p.name.toLowerCase()} \${p.rank.toLowerCase()} sta\${p.station} \${p.id} \${p.apparatus ? p.apparatus.toLowerCase() : ''}">
+    <td>\${p.name}</td>
+    <td><span class="rank-badge \${rbCls}">\${rbLabel}</span></td>
+    <td style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-dim)">\${p.id}</td>
+    <td style="font-size:11px;color:var(--text-dim)">Sta \${p.station}\${p.apparatus ? ' · ' + p.apparatus : ''}</td>
+    <td style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-dim)">\${p.hours}h</td>
+    <td><span class="status-pill \${spCls}">\${spLabel}</span></td>
+  </tr>\`;
+}
+
+function filterRoster(query) {
+  const q = query.toLowerCase();
+  document.querySelectorAll('#roster-tbody tr[data-search]').forEach(row => {
+    const match = !q || row.dataset.search.includes(q);
+    row.style.display = match ? '' : 'none';
+  });
+}
+
+function renderRosterData(data) {
+  rosterData = data;
+
+  // Sidebar footer
+  const total = data.allPersonnel.length;
+  const otCount = data.allPersonnel.filter(p=>p.status==='OVERTIME'||p.status==='SUPP OT').length;
+  document.getElementById('footer-stats').textContent = \`\${total} personnel · \${Object.keys(data.stations).length} stations\`;
+  document.getElementById('footer-date').textContent = data.date ? 'Roster: ' + data.date : '';
+  document.getElementById('units-roster-date').textContent = data.date ? 'Roster date: ' + data.date : '';
+  document.getElementById('roster-count-label').textContent = \`\${total} personnel on duty\`;
+
+  // Stats
+  document.getElementById('stat-onduty').textContent = total;
+  document.getElementById('stat-onduty-sub').textContent = \`C Shift · \${Object.keys(data.stations).length} stations\`;
+  document.getElementById('stat-stations').textContent = Object.keys(data.stations).length;
+  document.getElementById('stat-ot').textContent = otCount;
+  document.getElementById('stat-cb').textContent = data.allPersonnel.filter(p=>p.status==='CALLBACK').length;
+  const apparatusCount = Object.values(data.stations).reduce((a, s) => a + s.apparatus.length, 0);
+  document.getElementById('stat-apparatus').textContent = apparatusCount;
+
+  // Dashboard station grid
+  const dashGrid = document.getElementById('dashboard-station-grid');
+  const sorted = Object.keys(data.stations).sort((a,b) => parseInt(a)-parseInt(b));
+  dashGrid.innerHTML = sorted.map(sta => buildStationCard(sta, data.stations[sta])).join('');
+
+  // Full station grid
+  const fullGrid = document.getElementById('full-station-grid');
+  fullGrid.innerHTML = sorted.map(sta => {
+    const d = data.stations[sta];
+    const otC = d.personnel.filter(p=>p.status==='OVERTIME'||p.status==='SUPP OT').length;
+    const cbC = d.personnel.filter(p=>p.status==='CALLBACK').length;
+    const apps = d.apparatus.map(a => \`<span class="unit-badge \${getApparatusBadge(a)}">\${getApparatusLabel(a)}</span>\`).join('');
+    return \`<div class="station-card \${cbC>0?'alert':otC>0?'ot':''}" style="padding:12px">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">
+        <div><div class="station-num" style="font-size:15px">Station \${sta}</div></div>
+        <span class="status-pill \${cbC>0?'callback':otC>0?'ot':'on'}" style="font-size:9px">\${cbC>0?'CALLBACK':otC>0?'OT':'STAFFED'}</span>
+      </div>
+      <div class="unit-row" style="margin-bottom:8px">\${apps}</div>
+      \${d.personnel.map(p => {
+        const [rc,rl] = getRankBadge(p.rank);
+        return \`<div style="display:flex;align-items:center;gap:6px;padding:3px 0;border-bottom:1px solid rgba(201,168,76,0.05)">
+          <span class="rank-badge \${rc}" style="font-size:8px">\${rl}</span>
+          <span style="font-size:11px;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">\${p.name.split(',')[0]}\${p.status !== 'ON DUTY' ? ' <span style="color:var(--amber);font-size:9px">●</span>' : ''}</span>
+          <span style="font-family:JetBrains Mono,monospace;font-size:9px;color:var(--text-dim)">\${p.hours}h</span>
+        </div>\`;
+      }).join('')}
+    </div>\`;
+  }).join('');
+
+  // Roster table
+  const tbody = document.getElementById('roster-tbody');
+  tbody.innerHTML = data.allPersonnel.map(buildRosterRow).join('');
+}
+
+function loadRosterFile(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const parsed = parseRosterHTML(e.target.result);
+    renderRosterData(parsed);
+    alert('Roster updated successfully — ' + parsed.allPersonnel.length + ' personnel loaded.');
+  };
+  reader.readAsText(file);
+}
+
+// ---- WEATHER (NWS API) ----
+async function fetchWeather() {
+  try {
+    // NWS points for Stuart FL (27.197, -80.253)
+    const ptRes = await fetch('https://api.weather.gov/points/27.197,-80.253');
+    const ptData = await ptRes.json();
+    const obsUrl = ptData.properties.observationStations;
+    const stationsRes = await fetch(obsUrl);
+    const stationsData = await stationsRes.json();
+    const stationId = stationsData.features[0].properties.stationIdentifier;
+    const obsRes = await fetch(\`https://api.weather.gov/stations/\${stationId}/observations/latest\`);
+    const obsData = await obsRes.json();
+    const props = obsData.properties;
+    const tempC = props.temperature.value;
+    const tempF = tempC !== null ? Math.round(tempC * 9/5 + 32) : null;
+    const rh    = props.relativeHumidity.value !== null ? Math.round(props.relativeHumidity.value) : null;
+    const windMs = props.windSpeed.value;
+    const windMph = windMs !== null ? Math.round(windMs * 2.237) : null;
+    const windDir = props.windDirection.value;
+    const dirs = ['N','NNE','NE','ENE','E','ESE','SE','SSE','S','SSW','SW','WSW','W','WNW','NW','NNW'];
+    const dirStr = windDir !== null ? dirs[Math.round(windDir/22.5) % 16] : '--';
+
+    // Update all weather elements
+    ['w-temp','sr-temp'].forEach(id => {
+      const el = document.getElementById(id);
+      if(el) { el.textContent = tempF !== null ? tempF + '°F' : '--°F'; el.className = 'weather-value' + (tempF>85?' hot':''); }
+    });
+    ['w-rh','sr-rh'].forEach(id => {
+      const el = document.getElementById(id);
+      if(el) { el.textContent = rh !== null ? rh + '%' : '--%'; el.className = 'weather-value' + (rh<25?' danger':''); }
+    });
+    ['w-wind','sr-wind'].forEach(id => {
+      const el = document.getElementById(id);
+      if(el) el.textContent = windMph !== null ? windMph + ' mph' : '-- mph';
+    });
+    ['w-dir'].forEach(id => {
+      const el = document.getElementById(id);
+      if(el) el.textContent = dirStr;
+    });
+    const srWD = document.getElementById('sr-wind-dir');
+    if(srWD) srWD.textContent = 'Direction ' + dirStr;
+
+    // KBDI placeholder (manual update field)
+    updateKBDI(542);
+
+    // Fire weather assessment
+    updateFireWeather(tempF, rh, windMph);
+
+  } catch(e) {
+    console.warn('Weather fetch failed:', e);
+    ['w-temp','w-rh','w-wind','w-dir'].forEach(id => {
+      const el = document.getElementById(id);
+      if(el) el.textContent = el.id.includes('dir') ? '--' : el.id.includes('rh') ? '--%' : el.id.includes('wind') ? '-- mph' : '--°F';
+    });
+  }
+}
+
+function updateKBDI(value) {
+  const pct = Math.min((value/800)*100, 100);
+  const fill = document.getElementById('kbdi-fill');
+  if(fill) fill.style.width = pct + '%';
+  const label = document.getElementById('kbdi-label');
+  const srKbdi = document.getElementById('sr-kbdi');
+  const srKbdiSub = document.getElementById('sr-kbdi-sub');
+  let level = value < 200 ? 'LOW' : value < 400 ? 'MODERATE' : value < 600 ? 'ELEVATED' : value < 700 ? 'HIGH' : 'EXTREME';
+  let color = value < 400 ? 'var(--green)' : value < 600 ? 'var(--amber)' : 'var(--red)';
+  if(label) { label.textContent = value + ' / 800 — ' + level; label.style.color = color; }
+  if(srKbdi) { srKbdi.textContent = value; srKbdi.style.color = color; }
+  if(srKbdiSub) srKbdiSub.textContent = level + ' · of 800 max';
+}
+
+function updateFireWeather(temp, rh, wind) {
+  const el = document.getElementById('fire-weather-body');
+  if (!el) return;
+  const isRedFlag = rh < 25 && wind > 15;
+  const risk = isRedFlag ? 'ELEVATED' : rh < 35 ? 'MODERATE' : 'LOW';
+  const riskColor = isRedFlag ? 'var(--red)' : rh < 35 ? 'var(--amber)' : 'var(--green)';
+
+  el.innerHTML = \`
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;padding:10px;background:rgba(8,16,31,0.5);border-radius:6px;border-left:3px solid \${riskColor}">
+      <div style="font-family:Rajdhani,sans-serif;font-size:22px;font-weight:700;color:\${riskColor}">\${risk} RISK</div>
+      <div style="font-size:12px;color:var(--text-dim)">\${isRedFlag ? 'Red Flag conditions: Low humidity + elevated winds' : 'Monitor conditions — no active red flag criteria met'}</div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;font-size:12px">
+      <div style="padding:10px;background:rgba(8,16,31,0.4);border-radius:5px;border:1px solid var(--border)">
+        <div style="color:var(--text-dim);font-size:10px;margin-bottom:4px">RH THRESHOLD</div>
+        <div style="color:\${rh<25?'var(--red)':'var(--text)'}">\${rh !== null ? rh + '% (critical: &lt;25%)' : 'Unknown'}</div>
+      </div>
+      <div style="padding:10px;background:rgba(8,16,31,0.4);border-radius:5px;border:1px solid var(--border)">
+        <div style="color:var(--text-dim);font-size:10px;margin-bottom:4px">WIND THRESHOLD</div>
+        <div style="color:\${wind>15?'var(--amber)':'var(--text)'}">\${wind !== null ? wind + ' mph (critical: &gt;15)' : 'Unknown'}</div>
+      </div>
+      <div style="padding:10px;background:rgba(8,16,31,0.4);border-radius:5px;border:1px solid var(--border)">
+        <div style="color:var(--text-dim);font-size:10px;margin-bottom:4px">KBDI STATUS</div>
+        <div style="color:var(--amber)">542 — ELEVATED</div>
+      </div>
+    </div>\`;
+
+  // Show/hide red flag chip
+  const chip = document.getElementById('weather-alert-chip');
+  if(chip) chip.style.display = isRedFlag ? 'flex' : 'none';
+}
+
+async function fetchNWSAlerts() {
+  try {
+    const res = await fetch('https://api.weather.gov/alerts/active?zone=FLZ168');
+    const data = await res.json();
+    const el = document.getElementById('nws-alerts-body');
+    if (!el) return;
+    const features = data.features || [];
+    if (!features.length) {
+      el.innerHTML = '<span style="color:var(--green)">✓ No active NWS alerts for Martin County</span>';
+      return;
+    }
+    el.innerHTML = features.map(f => {
+      const p = f.properties;
+      return \`<div style="padding:10px;margin-bottom:8px;background:rgba(217,64,64,0.08);border:1px solid rgba(217,64,64,0.3);border-left:3px solid var(--red);border-radius:5px">
+        <div style="font-family:Rajdhani,sans-serif;font-size:13px;font-weight:700;color:#ff6b6b;margin-bottom:3px">\${p.event}</div>
+        <div style="font-size:11px;color:var(--text-dim)">Expires: \${p.expires ? new Date(p.expires).toLocaleString() : 'Unknown'}</div>
+        <div style="font-size:11px;color:var(--text);margin-top:4px">\${(p.headline||'').substring(0,200)}\${(p.headline||'').length>200?'...':''}</div>
+      </div>\`;
+    }).join('');
+  } catch(e) {
+    const el = document.getElementById('nws-alerts-body');
+    if(el) el.innerHTML = '<span style="color:var(--text-dim)">Unable to fetch NWS alerts. Check network connection.</span>';
+  }
+}
+
+function syncSitrepWeather() {
+  // Copy values already loaded
+  const temp = document.getElementById('w-temp').textContent;
+  const rh   = document.getElementById('w-rh').textContent;
+  const wind = document.getElementById('w-wind').textContent;
+  const dir  = document.getElementById('w-dir').textContent;
+  ['sr-temp'].forEach(id => { const el = document.getElementById(id); if(el) el.textContent = temp; });
+  ['sr-rh'].forEach(id => { const el = document.getElementById(id); if(el) el.textContent = rh; });
+  ['sr-wind'].forEach(id => { const el = document.getElementById(id); if(el) el.textContent = wind; });
+  const srWD = document.getElementById('sr-wind-dir');
+  if(srWD) srWD.textContent = 'Direction ' + dir;
+}
+
+// ---- ANNOUNCEMENTS ----
+const announcements = [
+  { priority: 'high', tag: 'Operations', title: 'Fire Weather — Elevated Conditions', body: 'KBDI 542. Low humidity forecast through weekend. Pre-position resources and coordinate with Forestry for any wildland assignments.', author: 'DC Hays', date: 'Today 0615' },
+  { priority: 'med',  tag: 'Apparatus',  title: 'TeleStaff Roster Export — Daily Reminder', body: 'Daily_Roster.html is scheduled to export and email at 0600. If the portal does not reflect current shift, check the file manually under Unit Status.', author: 'Admin', date: 'Today 0530' },
+  { priority: 'low',  tag: 'Admin',      title: 'PP9 Payroll Corrections — Deadline May 15', body: 'All leave corrections must be submitted to payroll by 1700 on May 15. No late edits will be processed after the deadline.', author: 'Admin', date: 'May 9' },
+  { priority: 'low',  tag: 'Training',   title: 'SRT Recertification — June Dates Posted', body: 'SRT Level 1 recertification is scheduled for June 7-8 and June 14-15. Sign up in TeleStaff under Training Events.', author: 'Training', date: 'May 8' },
+];
+
+function buildAnnouncements(containerId, limit) {
+  const el = document.getElementById(containerId);
+  if (!el) return;
+  const list = limit ? announcements.slice(0, limit) : announcements;
+  el.innerHTML = list.map(a => \`
+    <div class="announcement-item">
+      <div class="ann-priority \${a.priority}"></div>
+      <div class="ann-content">
+        <div class="ann-title">\${a.title}</div>
+        <div class="ann-body">\${a.body}</div>
+        <div class="ann-meta"><span class="ann-tag">\${a.tag}</span><span>\${a.author} · \${a.date}</span></div>
+      </div>
+    </div>\`).join('');
+}
+
+// ---- INIT ----
+function initPortal() {
+  // Date display
+  const now = new Date();
+  const dateStr = now.toLocaleDateString('en-US', {weekday:'long', year:'numeric', month:'long', day:'numeric'});
+  document.getElementById('page-sub-text').textContent = dateStr + ' · Martin County Fire Rescue';
+  document.getElementById('footer-date').textContent = dateStr;
+
+  // Build charts
+  buildCallChart('call-chart-bars');
+  buildCallChart('calls-chart-bars');
+
+  // Build announcements
+  buildAnnouncements('dash-announcements', 3);
+  buildAnnouncements('full-announcements');
+
+  // Load embedded roster data (parsed from the TeleStaff HTML)
+  const embeddedRoster = getEmbeddedRosterData();
+  renderRosterData(embeddedRoster);
+
+  // Fetch live weather
+  fetchWeather();
+  fetchNWSAlerts();
+
+  // Refresh weather every 10 minutes
+  setInterval(fetchWeather, 600000);
+}
+
+// ---- EMBEDDED ROSTER (from parsed TeleStaff export) ----
+function getEmbeddedRosterData() {
+  // Pre-parsed from Daily_Roster.html [05/10/2026] — C Shift
+  const stations = {
+    "11": { num:"11", apparatus:["LifeStar"], personnel:[
+      {name:"Grimm, Samantha (AIR1/PM)", rank:"2 Firefighter/Paramedic AIR1", id:"121", station:"11", apparatus:"Station 11 / LifeStar", status:"ON DUTY", hours:"24"},
+      {name:"Wesson, Brian (AIR1/PM)",   rank:"2 Firefighter/Paramedic AIR1", id:"351", station:"11", apparatus:"Station 11 / LifeStar", status:"ON DUTY", hours:"24"}
+    ]},
+    "14": { num:"14", apparatus:["Ladder/Engine 14","Rescue 14"], personnel:[
+      {name:"Crary, Evans (PM)",          rank:"5 Captain",                id:"696", station:"14", apparatus:"Ladder/Engine 14", status:"ON DUTY",  hours:"24"},
+      {name:"Eible, Brandon (AER/HM2/PM)",rank:"3 Driver Engineer",        id:"136", station:"14", apparatus:"Ladder/Engine 14", status:"ON DUTY",  hours:"24"},
+      {name:"Helton, Hannah (CJJI/PM)",   rank:"2 Firefighter/Paramedic",  id:"115", station:"14", apparatus:"Ladder/Engine 14", status:"ON DUTY",  hours:"24"},
+      {name:"Price, Melinda (PM)",        rank:"4 Lieutenant",             id:"581", station:"14", apparatus:"Rescue 14",        status:"ON DUTY",  hours:"12"},
+      {name:"Witt, Jacob R. (PM)",        rank:"2 Firefighter/Paramedic",  id:"234", station:"14", apparatus:"Rescue 14",        status:"ON DUTY",  hours:"24"},
+      {name:"Difrancesco, Brandon (PM)",  rank:"2 Firefighter/Paramedic",  id:"144", station:"14", apparatus:"Rescue 14",        status:"ON DUTY",  hours:"24"}
+    ]},
+    "16": { num:"16", apparatus:["Engine 16","Rescue 161"], personnel:[
+      {name:"Mack, Layton (PM/SRT2)",     rank:"5 Captain",                id:"772", station:"16", apparatus:"Engine 16",  status:"ON DUTY",   hours:"24"},
+      {name:"Francoeur, Emily (CJJI/PM)", rank:"2 Firefighter/Paramedic",  id:"773", station:"16", apparatus:"Engine 16",  status:"ON DUTY",   hours:"24"},
+      {name:"Thomas, Vicente (PM)",       rank:".0 Firefighter",           id:"604", station:"16", apparatus:"Engine 16",  status:"ON DUTY",   hours:"24"},
+      {name:"Holman, Bryant (CJJI/PM)",   rank:"4 Lieutenant",             id:"974", station:"16", apparatus:"Rescue 161", status:"SUPP OT",   hours:"24"},
+      {name:"Satchell, Brett (PM)",       rank:"2 Firefighter/Paramedic",  id:"837", station:"16", apparatus:"Rescue 161", status:"ON DUTY",   hours:"24"},
+      {name:"Cronin, Kenny",              rank:".0 Firefighter",           id:"559", station:"16", apparatus:"Rescue 161", status:"ON DUTY",   hours:"24"}
+    ]},
+    "18": { num:"18", apparatus:["Engine 18","Rescue 18"], personnel:[
+      {name:"Bates, Nicholas (PM)",       rank:"5 Captain",                id:"975", station:"18", apparatus:"Engine 18",  status:"ON DUTY",   hours:"24"},
+      {name:"Croteau, Justin (AER/HM2/PM/SRT2)", rank:"3 Driver Engineer", id:"764", station:"18", apparatus:"Engine 18",  status:"SWIFT WATER",hours:"24"},
+      {name:"Soriano, Dustin (PM)",       rank:"2 Firefighter/Paramedic",  id:"189", station:"18", apparatus:"Engine 18",  status:"SWIFT WATER",hours:"24"},
+      {name:"Violette, Kailynn (PM)",     rank:"4 Lieutenant",             id:"361", station:"18", apparatus:"Rescue 18",  status:"ON DUTY",   hours:"24"},
+      {name:"Abell, Hannah (AIR1/CJJI/PM)",rank:"2 Firefighter/Paramedic", id:"110", station:"18", apparatus:"Rescue 18",  status:"ON DUTY",   hours:"24"},
+      {name:"Sweatt, Cody",               rank:"2 Firefighter/Paramedic",  id:"355", station:"18", apparatus:"Rescue 18",  status:"ON DUTY",   hours:"12"}
+    ]},
+    "21": { num:"21", apparatus:["Engine 21","Rescue 211"], personnel:[
+      {name:"Hileman, Joshua (HC/HM1/PM)",rank:"5 Captain",                id:"996", station:"21", apparatus:"Engine 21",  status:"ON DUTY",   hours:"24"},
+      {name:"Cheston, Daniel (AER/HM1/PM)",rank:"3 Driver Engineer",       id:"116", station:"21", apparatus:"Engine 21",  status:"SWIFT WATER",hours:"24"},
+      {name:"Otero, Jonathon (HM2/PM)",   rank:".0 Firefighter",           id:"241", station:"21", apparatus:"Engine 21",  status:"ON DUTY",   hours:"24"},
+      {name:"Petzold, Dylan (HM1)",       rank:"4 Lieutenant",             id:"187", station:"21", apparatus:"Rescue 211", status:"ON DUTY",   hours:"24"},
+      {name:"Cosgrove, Kevin (HM1/PM/RSI)",rank:"2 Firefighter/Paramedic", id:"990", station:"21", apparatus:"Rescue 211", status:"ON DUTY",   hours:"24"},
+      {name:"Ware, Perry (HM1/PM/RSI)",   rank:"2 Firefighter/Paramedic",  id:"230", station:"21", apparatus:"Rescue 211", status:"ON DUTY",   hours:"24"}
+    ]},
+    "22": { num:"22", apparatus:["Engine 22","Rescue 22"], personnel:[
+      {name:"Eve, Trevor (PM/SRT1)",      rank:"5 Captain",                id:"710", station:"22", apparatus:"Engine 22",  status:"ON DUTY",   hours:"24"},
+      {name:"Almaguer, Jason (PM)",       rank:"2 Firefighter/Paramedic",  id:"133", station:"22", apparatus:"Engine 22",  status:"ON DUTY",   hours:"24"},
+      {name:"Jones, William T.",          rank:".0 Firefighter",           id:"662", station:"22", apparatus:"Engine 22",  status:"ON DUTY",   hours:"24"},
+      {name:"Johnson, Corey (PM)",        rank:"2 Firefighter/Paramedic",  id:"194", station:"22", apparatus:"Rescue 22",  status:"ON DUTY",   hours:"24"},
+      {name:"Aranda, Hunter (PM/SWAT-Medic)",rank:"2 Firefighter/Paramedic",id:"181",station:"22", apparatus:"Rescue 22",  status:"ON DUTY",   hours:"24"},
+      {name:"Dobbs, Jonathan (MRU2)",     rank:".0 Firefighter",           id:"778", station:"22", apparatus:"Rescue 22",  status:"ON DUTY",   hours:"12"}
+    ]},
+    "23": { num:"23", apparatus:["Ladder/Engine 23","Rescue 231"], personnel:[
+      {name:"Friedrich, Roy (SRT1/SRTC)", rank:"5 Captain",                id:"941", station:"23", apparatus:"Ladder/Engine 23", status:"ON DUTY",  hours:"24"},
+      {name:"Pellegrino Jr., Anthony (PM/SRT1)",rank:"3 Driver Engineer",  id:"280", station:"23", apparatus:"Ladder/Engine 23", status:"ON DUTY",  hours:"24"},
+      {name:"Rock, Carter (PM/SRT1)",     rank:"2 Firefighter/Paramedic",  id:"308", station:"23", apparatus:"Ladder/Engine 23", status:"ON DUTY",  hours:"24"},
+      {name:"Bergener, Kyle (CJJI/PM/SRT1)",rank:"2 Firefighter/Paramedic",id:"162", station:"23", apparatus:"Rescue 231",       status:"ON DUTY",  hours:"24"},
+      {name:"Giuffrida, Carol (PM)",      rank:"2 Firefighter/Paramedic",  id:"353", station:"23", apparatus:"Rescue 231",       status:"ON DUTY",  hours:"24"},
+      {name:"Rosenberg, Jessica (PM)",    rank:".0 Firefighter",           id:"209", station:"23", apparatus:"Rescue 231",       status:"ON DUTY",  hours:"24"}
+    ]},
+    "24": { num:"24", apparatus:["Engine 24","Rescue 241","Rescue 242"], personnel:[
+      {name:"Labrador, Jose (HC/HM1/PM)", rank:"5 Captain",                id:"212", station:"24", apparatus:"Engine 24",    status:"ON DUTY",   hours:"24"},
+      {name:"Totilas, Robert B. (AER/HM1)",rank:"3 Driver Engineer",       id:"339", station:"24", apparatus:"Engine 24",    status:"ON DUTY",   hours:"24"},
+      {name:"Inman, Dylan (PM/SRT1)",     rank:"2 Firefighter/Paramedic",  id:"529", station:"24", apparatus:"Engine 24",    status:"ON DUTY",   hours:"24"},
+      {name:"Sydne, Dominique (PM)",      rank:"2 Firefighter/Paramedic",  id:"195", station:"24", apparatus:"Rescue 241",   status:"ON DUTY",   hours:"24"},
+      {name:"Kane, Brittney (HM2/PM)",    rank:".2 Firefighter/Paramedic", id:"464", station:"24", apparatus:"Rescue 241",   status:"ON DUTY",   hours:"24"},
+      {name:"Coppola Jr., John (PM)",     rank:"2 Firefighter/Paramedic",  id:"128", station:"24", apparatus:"Rescue 242",   status:"ON DUTY",   hours:"24"},
+      {name:"Sweatt, Coy (HM2/PM)",       rank:".2 Firefighter/Paramedic", id:"708", station:"24", apparatus:"Rescue 242",   status:"ON DUTY",   hours:"24"}
+    ]},
+    "30": { num:"30", apparatus:["Engine 30","Rescue 301","Rescue 302"], personnel:[
+      {name:"Price, Melinda (PM)",        rank:"5 Captain",                id:"581", station:"30", apparatus:"Engine 30",   status:"CALLBACK",  hours:"12"},
+      {name:"Pecci, Conner (MRU2/PM)",    rank:"",                         id:"901", station:"30", apparatus:"Engine 30",   status:"ON DUTY",   hours:"12"},
+      {name:"Ryan, Adam (MRU2/PM)",       rank:"3 Driver Engineer",        id:"130", station:"30", apparatus:"Engine 30",   status:"ON DUTY",   hours:"24"},
+      {name:"Lechner, Stephen (MRU1/PM)", rank:"2 Firefighter/Paramedic",  id:"428", station:"30", apparatus:"Engine 30",   status:"ON DUTY",   hours:"24"},
+      {name:"Gonzalez, Luis (MRU2/PM)",   rank:"4 Lieutenant",             id:"500", station:"30", apparatus:"Rescue 301",  status:"ON DUTY",   hours:"24"},
+      {name:"Price, Sabrina (PM)",        rank:"2 Firefighter/Paramedic",  id:"456", station:"30", apparatus:"Rescue 301",  status:"OVERTIME",  hours:"12"},
+      {name:"Risk, Kyler (MRU2/PM)",      rank:"",                         id:"267", station:"30", apparatus:"Rescue 301",  status:"ON DUTY",   hours:"12"},
+      {name:"McGinn, Matthew (DR/PFF)",   rank:"2 Firefighter/Paramedic",  id:"484", station:"30", apparatus:"Rescue 302",  status:"OVERTIME",  hours:"12"},
+      {name:"Anderson, Andrew (MRU2/PM)", rank:"",                         id:"736", station:"30", apparatus:"Rescue 302",  status:"ON DUTY",   hours:"12"},
+      {name:"Fields, Dawson (MRU1/PM)",   rank:"2 Firefighter/Paramedic",  id:"427", station:"30", apparatus:"Rescue 302",  status:"ON DUTY",   hours:"12"},
+      {name:"Dalton, John (MRU1/PM)",     rank:"",                         id:"206", station:"30", apparatus:"Rescue 302",  status:"SWIFT WATER",hours:"12"},
+      {name:"Hines, Noah (DR/MRU2/PFF)",  rank:".0 Firefighter",           id:"323", station:"30", apparatus:"Rescue 302",  status:"ON DUTY",   hours:"12"},
+      {name:"Sweatt, Cody",               rank:".0 Firefighter",           id:"355", station:"30", apparatus:"Rescue 302",  status:"ON DUTY",   hours:"12"},
+      {name:"Smith, Ethan (DR/MRU2/PFF)", rank:"",                         id:"439", station:"30", apparatus:"Rescue 302",  status:"ON DUTY",   hours:"12"}
+    ]},
+    "32": { num:"32", apparatus:["Engine 32","Rescue 32"], personnel:[
+      {name:"OBrien, Joshua (PM)",        rank:"5 Captain",                id:"193", station:"32", apparatus:"Engine 32",  status:"ON DUTY",   hours:"24"},
+      {name:"Bellucy, Kevin (AER/HM2/PM)",rank:"3 Driver Engineer",        id:"113", station:"32", apparatus:"Engine 32",  status:"ON DUTY",   hours:"24"},
+      {name:"Martin, Carlos (PM/RSI)",    rank:"2 Firefighter/Paramedic",  id:"214", station:"32", apparatus:"Engine 32",  status:"ON DUTY",   hours:"24"},
+      {name:"Edmondson, Marshall (PM)",   rank:"4 Lieutenant",             id:"880", station:"32", apparatus:"Rescue 32",  status:"SUPP OT",   hours:"24"},
+      {name:"Nader, Kristian (PM)",       rank:"2 Firefighter/Paramedic",  id:"845", station:"32", apparatus:"Rescue 32",  status:"ON DUTY",   hours:"24"},
+      {name:"Cheney Jr, James R.",        rank:".0 Firefighter",           id:"888", station:"32", apparatus:"Rescue 32",  status:"ON DUTY",   hours:"24"}
+    ]},
+    "33": { num:"33", apparatus:["Ladder/Engine 33","Rescue 331"], personnel:[
+      {name:"Cheli, Giancarlo (PM)",      rank:"5 Captain",                id:"149", station:"33", apparatus:"Ladder/Engine 33", status:"ON DUTY",  hours:"24"},
+      {name:"Behrsin, Taylor (AER/PM)",   rank:"3 Driver Engineer",        id:"711", station:"33", apparatus:"Ladder/Engine 33", status:"ON DUTY",  hours:"24"},
+      {name:"Santos, Jonathan (PM/RSI)",  rank:"2 Firefighter/Paramedic",  id:"731", station:"33", apparatus:"Ladder/Engine 33", status:"ON DUTY",  hours:"24"},
+      {name:"Del Campo, Francisco (PM)",  rank:"4 Lieutenant",             id:"600", station:"33", apparatus:"Rescue 331",       status:"ON DUTY",  hours:"24"},
+      {name:"Koos, David (PM)",           rank:"2 Firefighter/Paramedic",  id:"349", station:"33", apparatus:"Rescue 331",       status:"ON DUTY",  hours:"24"},
+      {name:"Bourguignon, Christopher",  rank:".0 Firefighter",            id:"231", station:"33", apparatus:"Rescue 331",       status:"ON DUTY",  hours:"24"}
+    ]},
+    "34": { num:"34", apparatus:["Medic 34"], personnel:[
+      {name:"Wisniewski, Christopher (CJJI/PM)", rank:"2 Firefighter/Paramedic CJJI", id:"467", station:"34", apparatus:"Medic 34", status:"ON DUTY", hours:"24"}
+    ]},
+    "36": { num:"36", apparatus:["Engine 36","Rescue 36"], personnel:[
+      {name:"Keane, Jason J. (PM)",       rank:"5 Captain",                id:"698", station:"36", apparatus:"Engine 36",  status:"ON DUTY",   hours:"24"},
+      {name:"Smith, Jerome (AER)",        rank:"3 Driver Engineer",        id:"733", station:"36", apparatus:"Engine 36",  status:"ON DUTY",   hours:"24"},
+      {name:"Taylor, Kelly S. (PM)",      rank:"2 Firefighter/Paramedic",  id:"840", station:"36", apparatus:"Engine 36",  status:"ON DUTY",   hours:"24"},
+      {name:"Greinstein, Joshua (CJJI/PM)",rank:"4 Lieutenant",            id:"226", station:"36", apparatus:"Rescue 36",  status:"SUPP OT",   hours:"24"},
+      {name:"Reed, Adam R. (PM)",         rank:"2 Firefighter/Paramedic",  id:"939", station:"36", apparatus:"Rescue 36",  status:"ON DUTY",   hours:"24"}
+    ]}
+  };
+
+  // Build allPersonnel
+  const allPersonnel = [];
+  Object.values(stations).forEach(s => s.personnel.forEach(p => allPersonnel.push(p)));
+
+  // Also add command staff
+  const cmdStaff = [
+    {name:"Shell, Joshua M.",      rank:"Operations District Chief", id:"855", station:"CMD", apparatus:"Battalion Supervisors / C-Shift", status:"ON DUTY", hours:"24"},
+    {name:"Diapoules, Michael S.", rank:"7 Battalion Chief",         id:"717", station:"CMD", apparatus:"Battalion 2",                    status:"ON DUTY", hours:"24"},
+    {name:"Kipp, Jason F.",        rank:"6 EMS Captain",             id:"752", station:"CMD", apparatus:"Battalion 2",                    status:"ON DUTY", hours:"24"},
+    {name:"Khanna, Christopher P.",rank:"7 Battalion Chief",         id:"834", station:"CMD", apparatus:"Battalion 3",                    status:"ON DUTY", hours:"24"},
+    {name:"Boniewski, Robert",     rank:"7 Battalion Chief",         id:"978", station:"CMD", apparatus:"Battalion 4",                    status:"ON DUTY", hours:"24"},
+    {name:"Hester, Chris",         rank:"6 EMS Captain",             id:"718", station:"CMD", apparatus:"Battalion 4",                    status:"ON DUTY", hours:"24"},
+    {name:"Hornbostel, Thomas",    rank:".Duty Officer",             id:"972", station:"CMD", apparatus:"On Call / Duty Officer",          status:"ON DUTY", hours:"0.02"},
+    {name:"Harkcom, Jeffrey",      rank:"{Senior Emergency Management Coordinator}", id:"", station:"CMD", apparatus:"Emergency Management", status:"ON DUTY", hours:"0.02"},
+    {name:"Eible, Logan",          rank:"{Fire Mechanic I}",         id:"",    station:"CMD", apparatus:"Fleet Maintenance / On Call",     status:"ON DUTY", hours:"1"}
+  ];
+  cmdStaff.forEach(p => allPersonnel.push(p));
+
+  return { date: '05/10/2026', stations, allPersonnel };
+}
+
+// ---- NAV TAB interactions ----
+document.querySelectorAll('.tab-item').forEach(tab => {
+  tab.addEventListener('click', function() {
+    this.closest('.tab-nav').querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
+    this.classList.add('active');
+  });
+});
+</script>
+</body>
+</html>
