@@ -1131,7 +1131,19 @@ function renderRosterData(data) {
   document.getElementById('stat-ot').textContent = otCount;
   document.getElementById('stat-cb').textContent = cbCount;
   document.getElementById('stat-apparatus').textContent = apparatusCount;
-  document.getElementById('shift-label').textContent = (data.date ? data.date.split('/')[2] === new Date().getFullYear().toString() ? 'On Duty' : 'On Duty' : 'On Duty') + ' — ' + total + ' Personnel';
+  // Calculate current shift (A/B/C) based on rotation
+  // Reference: May 10, 2026 = C Shift
+  function getCurrentShift() {
+    var refDate = new Date('2026-05-10');
+    var today = new Date();
+    today.setHours(0,0,0,0);
+    refDate.setHours(0,0,0,0);
+    var daysDiff = Math.round((today - refDate) / 86400000);
+    var shifts = ['C','A','B']; // C on day 0, A on day 1, B on day 2, C on day 3...
+    return shifts[((daysDiff % 3) + 3) % 3];
+  }
+  var currentShift = getCurrentShift();
+  document.getElementById('shift-label').textContent = currentShift + ' Shift — ' + total + ' Personnel';
   document.getElementById('footer-stats').textContent = total + ' personnel · ' + stationCount + ' stations';
   if (data.date) document.getElementById('footer-date').textContent = 'Roster: ' + data.date;
 
