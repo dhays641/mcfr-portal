@@ -1046,7 +1046,7 @@ function parseRosterXLSX(rows) {
     var rank = cols[1] || '';
     var statusCode = cols[5] || '';
     var hours = cols[8] || '24';
-    var statusMap = const statusMap = {
+    const statusMap = {
       '+OT': 'OVERTIME', 'OT': 'OVERTIME', 'Ov': 'OVERTIME', 'OTSU': 'OVERTIME',
       '+SUCP': 'STEP-UP CPT', 'SUCP': 'STEP-UP CPT',
       '+SULT': 'STEP-UP LT', 'SULT': 'STEP-UP LT',
@@ -1248,10 +1248,10 @@ const ANN_DEFAULT = [
   { priority: 'low',  tag: 'Training',   title: 'SRT Recertification — June Dates Posted', body: 'SRT Level 1 recertification is scheduled for June 7-8 and June 14-15. Sign up in TeleStaff under Training Events.', author: 'Training', date: 'May 8' },
 ];
 
-let announcements = [];
+announcements = [];
 try {
   const saved = localStorage.getItem('mcfr-announcements');
-  announcements = saved ? JSON.parse(saved) : JSON.parse(JSON.stringify(ANN_DEFAULT));
+  announcements = saved ? JSON.parse(saved) : [];
 } catch(e) {
   announcements = JSON.parse(JSON.stringify(ANN_DEFAULT));
 }
@@ -1705,19 +1705,19 @@ function initImageTrend() {
 // ================================================================
 
 const SR_PW = 'MCFR2026';
-let annAuthed = false;
+annAuthed = false;
 
 // const ANN_DEFAULT = [ // duplicate removed
-  { priority: 'high', tag: 'Operations', title: 'Fire Weather — Elevated Conditions', body: 'KBDI 542. Low humidity forecast through weekend. Pre-position resources and coordinate with Forestry for any wildland assignments.', author: 'DC Hays', date: 'Today 0615' },
-  { priority: 'med',  tag: 'Apparatus',  title: 'TeleStaff Roster — Daily Auto-Update Active', body: 'Daily_Roster.xlsx is automatically pushed to the portal each morning via TeleStaff scheduled export. Unit Status and Roster tabs reflect current shift data.', author: 'Admin', date: 'Today 0530' },
-  { priority: 'low',  tag: 'Admin',      title: 'PP9 Payroll Corrections — Deadline May 15', body: 'All leave corrections must be submitted to payroll by 1700 on May 15. No late edits will be processed after the deadline.', author: 'Admin', date: 'May 9' },
-  { priority: 'low',  tag: 'Training',   title: 'SRT Recertification — June Dates Posted', body: 'SRT Level 1 recertification is scheduled for June 7-8 and June 14-15. Sign up in TeleStaff under Training Events.', author: 'Training', date: 'May 8' },
-];
+// REMOVED (syntax):   { priority: 'high', tag: 'Operations', title: 'Fire Weather — Elevated Conditions', body: 'KBDI 542. Low humidity forecast through weekend. Pre-position resources and coordinate with Forestry for any wildland assignments.', author: 'DC Hays', date: 'Today 0615' },
+// REMOVED (syntax):   { priority: 'med',  tag: 'Apparatus',  title: 'TeleStaff Roster — Daily Auto-Update Active', body: 'Daily_Roster.xlsx is automatically pushed to the portal each morning via TeleStaff scheduled export. Unit Status and Roster tabs reflect current shift data.', author: 'Admin', date: 'Today 0530' },
+// REMOVED (syntax):   { priority: 'low',  tag: 'Admin',      title: 'PP9 Payroll Corrections — Deadline May 15', body: 'All leave corrections must be submitted to payroll by 1700 on May 15. No late edits will be processed after the deadline.', author: 'Admin', date: 'May 9' },
+// REMOVED (syntax):   { priority: 'low',  tag: 'Training',   title: 'SRT Recertification — June Dates Posted', body: 'SRT Level 1 recertification is scheduled for June 7-8 and June 14-15. Sign up in TeleStaff under Training Events.', author: 'Training', date: 'May 8' },
+// REMOVED (syntax): ];
 
-let announcements = [];
+announcements = [];
 try {
   const saved = localStorage.getItem('mcfr-announcements');
-  announcements = saved ? JSON.parse(saved) : JSON.parse(JSON.stringify(ANN_DEFAULT));
+  announcements = saved ? JSON.parse(saved) : [];
 } catch(e) {
   announcements = JSON.parse(JSON.stringify(ANN_DEFAULT));
 }
