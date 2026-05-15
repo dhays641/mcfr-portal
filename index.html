@@ -59,6 +59,7 @@ body::before {
   z-index: 1000;
   flex-direction: column;
   gap: 0;
+  color: #e8eaf0;
 }
 
 #login-screen::before {
@@ -125,7 +126,7 @@ body::before {
   border-radius: 6px;
   padding: 12px 16px;
   font-family: 'Source Sans 3', sans-serif;
-  color: var(--text) !important;
+  color: #e8eaf0 !important;
   font-size: 14px;
   color: var(--text);
   outline: none;
@@ -694,214 +695,7 @@ body::before {
 
       <!-- ==================== SITREP ==================== -->
       <div id="page-sitrep" class="page-section">
-        <style id="sitrep-styles">
-#sr-container {
-  --red:#c0392b;
-  --dkred:#922b21;
-  --gold:#b8860b;
-  --green:#16a34a;
-  --yellow:#d97706;
-  --blue:#1d6fa4;
-  --orange:#ea580c;
-  --bg:#f0f2f5;
-  --panel:#fff;
-  --border:#dde1e7;
-  --text:#1a1a2e;
-  --muted:#6b7280;
-  --hdr:#1a1a2e;
-}
-
-#sr-container a:hover {#sr-container text-decoration:underline;}
-.hdr {#sr-container background:var(--hdr);border-bottom:3px solid var(--red);padding:12px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(0,
-#sr-container 0,
-#sr-container 0,
-#sr-container .4);}
-.hdr-l {#sr-container display:flex;align-items:center;gap:14px;}
-.logo {#sr-container width:52px;height:52px;object-fit:contain;object-position:center;flex-shrink:0;aspect-ratio:1/1;}
-.hdr-title h1 {#sr-container font-family:"Rajdhani",
-#sr-container sans-serif;font-weight:700;font-size:20px;letter-spacing:3px;text-transform:uppercase;color:#fff;}
-.hdr-title p {#sr-container font-size:11px;color:#9ca3af;letter-spacing:2px;text-transform:uppercase;}
-.hdr-r {#sr-container text-align:right;}
-.live {#sr-container display:inline-flex;align-items:center;gap:5px;font-family:"Rajdhani",
-#sr-container sans-serif;font-size:11px;letter-spacing:2px;color:#4ade80;text-transform:uppercase;}
-.live-dot {#sr-container width:7px;height:7px;background:#4ade80;border-radius:50%;animation:pulse 2s infinite;}
-@keyframes pulse {#sr-container 0%,
-#sr-container 100% {#sr-container opacity:1;transform:scale(1)}50% {#sr-container opacity:.4;transform:scale(.75)}}
-.ts {#sr-container font-family:"Rajdhani",
-#sr-container sans-serif;font-size:12px;color:#9ca3af;letter-spacing:1px;margin-top:3px;}
-.admin-btn {#sr-container background:transparent;border:1px solid #374151;color:#6b7280;padding:4px 12px;border-radius:3px;font-family:"Rajdhani",
-#sr-container sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;margin-top:5px;transition:all .2s;}
-.admin-btn:hover,
-#sr-container .admin-btn.active {#sr-container border-color:var(--gold);color:var(--gold);}
-.crit {#sr-container background:var(--dkred);border-bottom:1px solid var(--red);padding:8px 20px;display:flex;align-items:center;gap:12px;}
-.crit-lbl {#sr-container font-family:"Rajdhani",
-#sr-container sans-serif;font-weight:700;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#fcd34d;white-space:nowrap;}
-.crit-none {#sr-container color:rgba(255,
-#sr-container 255,
-#sr-container 255,
-#sr-container .4);font-style:italic;font-size:13px;}
-.crit-txt {#sr-container color:#fff;font-size:13px;}
-.wrap {#sr-container max-width:1100px;margin:0 auto;padding:14px;display:grid;gap:12px;}
-.two {#sr-container display:grid;grid-template-columns:1fr 1fr;gap:12px;}
-@media(max-width:640px) {#sr-container .two {#sr-container grid-template-columns:1fr}.hdr {#sr-container flex-direction:column;gap:8px;text-align:center}.hdr-r {#sr-container text-align:center}.s4 {#sr-container grid-template-columns:repeat(2,
-#sr-container 1fr)!important}.s3 {#sr-container grid-template-columns:repeat(2,
-#sr-container 1fr)!important}}
-.sec {#sr-container background:var(--panel);border:1px solid var(--border);border-radius:6px;overflow:hidden;box-shadow:0 1px 3px rgba(0,
-#sr-container 0,
-#sr-container 0,
-#sr-container .06);}
-.sh {#sr-container background:#f8f9fb;border-bottom:1px solid var(--border);padding:8px 14px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px;}
-.st {#sr-container font-family:"Rajdhani",
-#sr-container sans-serif;font-weight:700;font-size:12px;letter-spacing:3px;text-transform:uppercase;color:var(--red);}
-.sb {#sr-container padding:12px 14px;}
-.elink {#sr-container display:inline-flex;align-items:center;gap:3px;padding:3px 8px;background:#eff6ff;border:1px solid #bfdbfe;border-radius:3px;color:var(--blue);text-decoration:none;font-size:11px;font-family:"Rajdhani",
-#sr-container sans-serif;letter-spacing:1px;}
-.elink:hover {#sr-container background:#dbeafe;}
-.s4 {#sr-container display:grid;grid-template-columns:repeat(4,
-#sr-container 1fr);gap:8px;margin-bottom:10px;}
-.s3 {#sr-container display:grid;grid-template-columns:repeat(3,
-#sr-container 1fr);gap:8px;margin-bottom:10px;}
-.card {#sr-container background:#f8f9fb;border:1px solid var(--border);border-radius:4px;padding:10px;text-align:center;}
-.cl {#sr-container font-family:"Rajdhani",
-#sr-container sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:5px;}
-.cv {#sr-container font-family:"Rajdhani",
-#sr-container sans-serif;font-weight:700;font-size:26px;color:var(--text);line-height:1;margin-bottom:3px;}
-.cs {#sr-container font-size:11px;color:var(--muted);}
-.crow {#sr-container display:grid;grid-template-columns:130px 1fr auto;align-items:center;gap:8px;padding:7px 9px;background:#f8f9fb;border-radius:4px;border-left:3px solid var(--red);margin-bottom:5px;}
-.cr {#sr-container font-family:"Rajdhani",
-#sr-container sans-serif;font-weight:600;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);}
-.cn {#sr-container font-size:13px;font-weight:600;}
-.cp a {#sr-container font-family:"Rajdhani",
-#sr-container sans-serif;font-size:13px;color:var(--blue);letter-spacing:1px;}
-.arow {#sr-container display:grid;grid-template-columns:120px auto 1fr;align-items:center;gap:8px;padding:8px 10px;background:#f8f9fb;border-radius:4px;border:1px solid var(--border);margin-bottom:5px;}
-.an {#sr-container font-family:"Rajdhani",
-#sr-container sans-serif;font-weight:700;font-size:14px;}
-.pill {#sr-container padding:2px 8px;border-radius:20px;font-family:"Rajdhani",
-#sr-container sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;white-space:nowrap;}
-.p-oos {#sr-container background:#fef2f2;color:var(--red);border:1px solid #fca5a5;}
-.p-svc {#sr-container background:#f0fdf4;color:var(--green);border:1px solid #86efac;}
-.p-lim {#sr-container background:#fffbeb;color:var(--yellow);border:1px solid #fcd34d;}
-.ar {#sr-container font-size:12px;color:var(--muted);}
-.fbox {#sr-container background:#f8f9fb;border:1px solid var(--border);border-radius:4px;padding:10px 12px;margin-bottom:10px;}
-.fbox-l {#sr-container font-family:"Rajdhani",
-#sr-container sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:5px;}
-.fbox-t {#sr-container font-size:13px;color:var(--text);line-height:1.6;}
-.alert-box {#sr-container background:#fef2f2;border:1px solid #fecaca;border-left:3px solid var(--red);border-radius:4px;padding:10px 12px;margin-bottom:10px;display:none;}
-.alert-lbl {#sr-container font-family:"Rajdhani",
-#sr-container sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--red);margin-bottom:6px;}
-.alert-item {#sr-container font-size:12px;color:var(--text);line-height:1.6;padding-bottom:6px;margin-bottom:6px;border-bottom:1px solid #fecaca;}
-.alert-item:last-child {#sr-container border:none;margin:0;padding:0;}
-.badges {#sr-container display:flex;flex-wrap:wrap;gap:5px;margin-bottom:10px;}
-.hb {#sr-container display:inline-flex;align-items:center;gap:4px;padding:4px 9px;border-radius:4px;font-family:"Rajdhani",
-#sr-container sans-serif;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;border:1px solid;}
-.h-clear {#sr-container background:#f0fdf4;border-color:#86efac;color:var(--green);}
-.h-fire {#sr-container background:#fef2f2;border-color:#fca5a5;color:#dc2626;}
-.h-lite {#sr-container background:#fffbeb;border-color:#fcd34d;color:var(--yellow);}
-.h-rip {#sr-container background:#eff6ff;border-color:#93c5fd;color:var(--blue);}
-.h-fog {#sr-container background:#f9fafb;border-color:#d1d5db;color:var(--muted);}
-.h-heat {#sr-container background:#fff7ed;border-color:#fed7aa;color:var(--orange);}
-.wsrow {#sr-container display:flex;align-items:center;gap:10px;padding:6px 10px;background:#fffbeb;border:1px solid #fde68a;border-radius:4px;font-size:12px;margin-bottom:4px;}
-.wst {#sr-container font-family:"Rajdhani",
-#sr-container sans-serif;font-weight:700;font-size:13px;color:var(--yellow);min-width:70px;}
-.fw-sub {#sr-container font-family:"Rajdhani",
-#sr-container sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;font-weight:700;margin-bottom:8px;padding-bottom:5px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
-.fw-note {#sr-container color:var(--muted);font-weight:400;}
-.fw-div {#sr-container border:none;border-top:1px solid var(--border);margin:12px 0;}
-.flag {#sr-container background:#fef2f2;border:1px solid #fca5a5;border-left:3px solid var(--red);border-radius:4px;padding:8px 12px;margin-bottom:10px;font-family:"Rajdhani",
-#sr-container sans-serif;font-size:12px;font-weight:700;letter-spacing:1px;color:var(--red);display:none;}
-.litem {#sr-container display:flex;align-items:center;padding:8px 10px;background:#eff6ff;border-radius:4px;margin-bottom:5px;border:1px solid #bfdbfe;border-left:3px solid var(--blue);}
-.litem a {#sr-container color:var(--blue);font-size:13px;font-weight:600;}
-.lempty {#sr-container font-size:12px;color:var(--muted);font-style:italic;}
-.citem {#sr-container padding:9px 11px;background:#fef2f2;border-left:3px solid var(--red);border-radius:0 4px 4px 0;margin-bottom:7px;border:1px solid #fecaca;border-left:3px solid var(--red);}
-.croad {#sr-container font-family:"Rajdhani",
-#sr-container sans-serif;font-weight:700;font-size:12px;letter-spacing:1px;color:var(--red);margin-bottom:2px;}
-.cdesc {#sr-container font-size:12px;color:var(--text);line-height:1.5;}
-.cimp {#sr-container margin-top:4px;font-size:11px;color:var(--yellow);text-transform:uppercase;font-weight:600;letter-spacing:1px;}
-.ldg {#sr-container font-size:12px;color:var(--muted);padding:8px 0;}
-.spin {#sr-container display:inline-block;width:13px;height:13px;border:2px solid #e5e7eb;border-top-color:var(--red);border-radius:50%;animation:sp .8s linear infinite;vertical-align:middle;margin-right:5px;}
-@keyframes sp {#sr-container to {#sr-container transform:rotate(360deg)}}
-.tip-wrap {#sr-container position:relative;display:inline-block;}
-.tip-icon {#sr-container display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;border-radius:50%;background:var(--blue);color:#fff;font-size:9px;font-weight:700;cursor:pointer;margin-left:4px;vertical-align:middle;flex-shrink:0;user-select:none;-webkit-tap-highlight-color:transparent;}
-.tip-icon:hover+.tip-box,
-#sr-container .tip-icon:focus+.tip-box,
-#sr-container .tip-icon.active+.tip-box {#sr-container display:block;}
-.tip-box {#sr-container display:none;position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:#1a1a2e;color:#e8e8e8;border:1px solid #374151;border-radius:6px;padding:10px 12px;min-width:220px;max-width:280px;z-index:500;box-shadow:0 4px 20px rgba(0,
-#sr-container 0,
-#sr-container 0,
-#sr-container .4);pointer-events:none;}
-.tip-box::after {#sr-container content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:6px solid transparent;border-top-color:#1a1a2e;}
-.tip-title {#sr-container font-family:"Rajdhani",
-#sr-container sans-serif;font-weight:700;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#fcd34d;margin-bottom:7px;}
-.tip-row {#sr-container display:flex;justify-content:space-between;align-items:center;font-size:11px;padding:2px 0;border-bottom:1px solid #2a2d3e;}
-.tip-row:last-child {#sr-container border:none;}
-.tip-level {#sr-container font-weight:600;}
-.tip-desc {#sr-container color:#9ca3af;font-size:10px;text-align:right;max-width:150px;}
-@media(max-width:640px) {#sr-container .tip-box {#sr-container left:auto;right:0;transform:none;}.tip-box::after {#sr-container left:auto;right:10px;transform:none;}}
-.footer {#sr-container text-align:center;.footer {#sr-container text-align:center;padding:14px;font-size:11px;color:var(--muted);letter-spacing:1px;border-top:1px solid var(--border);background:var(--panel);}
-.overlay {#sr-container display:none;position:fixed;top:0;left:0;right:0;bottom:0;width:100%;height:100%;background:rgba(0,
-#sr-container 0,
-#sr-container 0,
-#sr-container .65);z-index:9999;align-items:center;justify-content:center;}
-.overlay.open {#sr-container display:flex!important;}
-.modal {#sr-container background:#fff;border:1px solid var(--border);border-radius:8px;width:95%;max-width:700px;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,
-#sr-container 0,
-#sr-container 0,
-#sr-container .35);position:relative;margin:auto;}
-.mhdr {#sr-container background:var(--hdr);border-bottom:2px solid var(--red);padding:13px 18px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10;}
-.mtit {#sr-container font-family:"Rajdhani",
-#sr-container sans-serif;font-weight:700;font-size:14px;letter-spacing:3px;text-transform:uppercase;color:var(--red);}
-.mcls {#sr-container background:transparent;border:none;color:#9ca3af;font-size:22px;cursor:pointer;}
-.mcls:hover {#sr-container color:#fff;}
-.mbody {#sr-container padding:18px;}
-.msec {#sr-container margin-bottom:20px;}
-.mstit {#sr-container font-family:"Rajdhani",
-#sr-container sans-serif;font-weight:700;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:8px;border-bottom:1px solid var(--border);padding-bottom:5px;}
-.fr {#sr-container display:grid;grid-template-columns:140px 1fr;gap:8px;align-items:center;margin-bottom:7px;}
-.fr label {#sr-container font-size:12px;color:var(--muted);}
-.fr input,
-#sr-container .fr select {#sr-container background:#f8f9fb;border:1px solid var(--border);color:var(--text);padding:6px 10px;border-radius:4px;font-size:13px;font-family:"Source Sans 3",
-#sr-container sans-serif;width:100%;}
-.fr input:focus,
-#sr-container .fr select:focus {#sr-container outline:none;border-color:var(--blue);background:#fff;}
-.er {#sr-container background:#f8f9fb;border:1px solid var(--border);border-radius:4px;padding:9px;margin-bottom:7px;display:grid;gap:5px;}
-.g3 {#sr-container display:grid;grid-template-columns:1fr 1fr auto;gap:7px;align-items:center;}
-.g2 {#sr-container display:grid;grid-template-columns:1fr 1fr auto;gap:7px;align-items:center;}
-.er input,
-#sr-container .er select {#sr-container background:#fff;border:1px solid var(--border);color:var(--text);padding:5px 8px;border-radius:3px;font-size:12px;font-family:"Source Sans 3",
-#sr-container sans-serif;width:100%;}
-.er input:focus,
-#sr-container .er select:focus {#sr-container outline:none;border-color:var(--blue);}
-.ef {#sr-container width:100%;background:#fff;border:1px solid var(--border);color:var(--text);padding:5px 8px;border-radius:3px;font-size:12px;font-family:"Source Sans 3",
-#sr-container sans-serif;}
-.ef:focus {#sr-container outline:none;border-color:var(--blue);}
-.btn {#sr-container padding:6px 16px;border-radius:4px;font-family:"Rajdhani",
-#sr-container sans-serif;font-size:12px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;border:1px solid;}
-.btn-r {#sr-container background:#fef2f2;border-color:#fca5a5;color:var(--red);}
-.btn-g {#sr-container background:#f0fdf4;border-color:#86efac;color:var(--green);}
-.btn-o {#sr-container background:#fffbeb;border-color:#fcd34d;color:var(--yellow);}
-.btn-sm {#sr-container padding:4px 9px;font-size:10px;}
-.rmv {#sr-container background:transparent;border:none;color:#d1d5db;cursor:pointer;font-size:15px;padding:2px 5px;}
-.rmv:hover {#sr-container color:var(--red);}
-.lbox {#sr-container padding:28px 24px;text-align:center;}
-.lbox h3 {#sr-container font-family:"Rajdhani",
-#sr-container sans-serif;font-weight:700;font-size:16px;letter-spacing:3px;text-transform:uppercase;color:var(--red);margin-bottom:12px;}
-.lbox input {#sr-container background:#f8f9fb;border:1px solid var(--border);color:var(--text);padding:9px 14px;border-radius:4px;font-size:14px;width:100%;max-width:260px;text-align:center;letter-spacing:3px;}
-.lbox input:focus {#sr-container outline:none;border-color:var(--blue);background:#fff;}
-.pwerr {#sr-container color:var(--red);font-size:12px;margin-top:7px;}
-.rtbl {#sr-container width:100%;border-collapse:collapse;font-size:11px;margin-top:6px;}
-.rtbl th {#sr-container padding:3px 7px;text-align:left;font-family:"Rajdhani",
-#sr-container sans-serif;letter-spacing:1px;text-transform:uppercase;font-size:10px;background:#f0f0f0;}
-.rtbl td {#sr-container padding:3px 7px;}
-.refbox {#sr-container background:#f8f9fb;border:1px solid var(--border);border-radius:4px;padding:9px;margin-top:6px;}
-.reflbl {#sr-container font-family:"Rajdhani",
-#sr-container sans-serif;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted);font-size:10px;margin-bottom:5px;}
-
-/* Scoped overrides so sitrep styles don't bleed into portal */
-#page-sitrep .hdr {#sr-container display:none; }
-#page-sitrep .footer {#sr-container display:none; }
-#page-sitrep body { background:transparent; }
         
-</style>
 
         <div id="sr-container" style="background:#f0f2f5;border-radius:8px;overflow:hidden;">
         <style>
@@ -918,7 +712,7 @@ body::before {
   <div class="hdr-r">
     <div class="live"><span class="live-dot"></span>Live</div>
     <div class="ts" id="ts"></div>
-    <button class="admin-btn" id="admin-btn" onclick="openAdmin()">⚙ Admin</button>
+    <button class="admin-btn" id="admin-btn" onclick="srAdminOpen()">⚙ Admin</button>
   </div>
 </div>
 
@@ -1035,12 +829,12 @@ body::before {
 
 <div class="overlay" id="modal">
   <div class="modal">
-    <div class="mhdr"><span class="mtit">⚙ Admin Panel</span><button class="mcls" onclick="closeAdmin()">✕</button></div>
+    <div class="mhdr"><span class="mtit">⚙ Admin Panel</span><button class="mcls" onclick="srAdminClose()">✕</button></div>
     <div id="lview" class="lbox">
       <h3>🔒 Admin Access</h3>
       <p style="font-size:12px;color:var(--muted);margin-bottom:12px;">Enter password to edit the situation report.</p>
       <input type="password" id="pw" placeholder="Password" onkeydown="if(event.key==='Enter')checkPw()">
-      <div style="margin-top:10px;"><button class="btn btn-r" onclick="checkPw()">Unlock</button></div>
+      <div style="margin-top:10px;"><button class="btn btn-r" onclick="srAdminCheckPw()">Unlock</button></div>
       <div class="pwerr" id="pwerr"></div>
     </div>
     <div id="eview" style="display:none;">
@@ -1048,7 +842,7 @@ body::before {
         <div class="msec"><div class="mstit">Critical Information</div><div class="fr"><label>Message</label><input type="text" id="e-crit" placeholder="Leave blank for None"></div></div>
         <div class="msec"><div class="mstit">Contacts</div><div id="ced"></div></div>
         <div class="msec"><div class="mstit">Fleet Board URL</div><div class="fr"><label>Link</label><input type="text" id="e-fleet" placeholder="https://..."></div></div>
-        <div class="msec"><div class="mstit">Apparatus Status</div><div id="aed"></div><button class="btn btn-g btn-sm" onclick="addUnit()" style="margin-top:5px;">+ Add Unit</button></div>
+        <div class="msec"><div class="mstit">Apparatus Status</div><div id="aed"></div><button class="btn btn-g btn-sm" onclick="srAdminAddUnit()" style="margin-top:5px;">+ Add Unit</button></div>
         <div class="msec">
           <div class="mstit">Burn Status — Manual Fields</div>
           <div class="fr"><label>Burn Authorization</label><select id="e-burn"><option value="YES">YES</option><option value="NO">NO</option><option value="RESTRICTED">RESTRICTED</option></select></div>
@@ -1071,12 +865,12 @@ body::before {
             <p style="font-size:11px;color:var(--muted);margin-top:5px;font-style:italic;">Risk auto-calculates on Save using KBDI + NWS Min RH + wind. Select level above to override.</p>
           </div>
         </div>
-        <div class="msec"><div class="mstit">Incident Action Plans</div><div id="ied"></div><button class="btn btn-g btn-sm" onclick="addIAP()" style="margin-top:5px;">+ Add IAP Link</button></div>
-        <div class="msec"><div class="mstit">Training Links</div><div id="ted"></div><button class="btn btn-g btn-sm" onclick="addTr()" style="margin-top:5px;">+ Add Training Link</button></div>
-        <div class="msec"><div class="mstit">Road Closures (Manual)</div><div id="cled"></div><button class="btn btn-g btn-sm" onclick="addCl()" style="margin-top:5px;">+ Add Closure</button></div>
+        <div class="msec"><div class="mstit">Incident Action Plans</div><div id="ied"></div><button class="btn btn-g btn-sm" onclick="srAdminAddIAP()" style="margin-top:5px;">+ Add IAP Link</button></div>
+        <div class="msec"><div class="mstit">Training Links</div><div id="ted"></div><button class="btn btn-g btn-sm" onclick="srAdminAddTr()" style="margin-top:5px;">+ Add Training Link</button></div>
+        <div class="msec"><div class="mstit">Road Closures (Manual)</div><div id="cled"></div><button class="btn btn-g btn-sm" onclick="srAdminAddCl()" style="margin-top:5px;">+ Add Closure</button></div>
         <div style="display:flex;gap:8px;justify-content:flex-end;padding-top:10px;border-top:1px solid var(--border);">
-          <button class="btn btn-r" onclick="closeAdmin()">Cancel</button>
-          <button class="btn btn-o" onclick="saveAll()">💾 Save &amp; Publish</button>
+          <button class="btn btn-r" onclick="srAdminClose()">Cancel</button>
+          <button class="btn btn-o" onclick="srAdminSave()">💾 Save &amp; Publish</button>
         </div>
       </div>
     </div>
@@ -1084,7 +878,46 @@ body::before {
 </div>
         </div>
 
-      </div>
+      
+        <!-- SitRep Admin Modal -->
+        <div class="overlay" id="sr-modal">
+          <div class="modal">
+            <div class="mhdr"><span class="mtit">⚙ SitRep Admin Panel</span><button class="mcls" onclick="srAdminClose()">✕</button></div>
+            <div id="lview" class="lbox">
+              <h3>🔒 Admin Access</h3>
+              <p style="font-size:12px;color:var(--muted);margin-bottom:12px;">Enter password to edit the situation report.</p>
+              <input type="password" id="pw" placeholder="Password" onkeydown="if(event.key==='Enter')srAdminCheckPw()">
+              <div style="margin-top:10px;"><button class="btn btn-r" onclick="srAdminCheckPw()">Unlock</button></div>
+              <div class="pwerr" id="pwerr"></div>
+            </div>
+            <div id="eview" style="display:none;">
+              <div class="mbody">
+                <div class="msec"><div class="mstit">Critical Information</div><div class="fr"><label>Message</label><input type="text" id="e-crit" placeholder="Leave blank for None"></div></div>
+                <div class="msec"><div class="mstit">Contacts</div><div id="ced"></div></div>
+                <div class="msec"><div class="mstit">Fleet Board URL</div><div class="fr"><label>Link</label><input type="text" id="e-fleet" placeholder="https://..."></div></div>
+                <div class="msec"><div class="mstit">Apparatus Status</div><div id="aed"></div><button class="btn btn-g btn-sm" onclick="srAdminAddUnit()" style="margin-top:5px;">+ Add Unit</button></div>
+                <div class="msec">
+                  <div class="mstit">KBDI &amp; Burn Status</div>
+                  <div class="fr"><label>Burn Authorization</label><select id="e-burn"><option value="YES">YES</option><option value="NO">NO</option><option value="RESTRICTED">RESTRICTED</option></select></div>
+                  <div class="fr"><label>KBDI Mean</label><input type="text" id="e-kbdi-mean" placeholder="e.g. 402"></div>
+                  <div class="fr"><label>KBDI Change</label><input type="text" id="e-kbdi-chg" placeholder="e.g. +7"></div>
+                  <div class="fr"><label>KBDI Min/Max</label><input type="text" id="e-kbdi-mm" placeholder="e.g. 170/640"></div>
+                  <div class="fr"><label>Fire Weather Risk</label>
+                    <select id="e-risk"><option value="auto">-- Auto-Calculate --</option><option value="Low">Low</option><option value="Moderate">Moderate</option><option value="High">High</option><option value="Very High">Very High</option><option value="Extreme">Extreme</option></select>
+                  </div>
+                </div>
+                <div class="msec"><div class="mstit">Incident Action Plans</div><div id="ied"></div><button class="btn btn-g btn-sm" onclick="srAdminAddIAP()" style="margin-top:5px;">+ Add IAP Link</button></div>
+                <div class="msec"><div class="mstit">Training Links</div><div id="ted"></div><button class="btn btn-g btn-sm" onclick="srAdminAddTr()" style="margin-top:5px;">+ Add Training Link</button></div>
+                <div class="msec"><div class="mstit">Road Closures (Manual)</div><div id="cled"></div><button class="btn btn-g btn-sm" onclick="srAdminAddCl()" style="margin-top:5px;">+ Add Closure</button></div>
+                <div style="display:flex;gap:8px;justify-content:flex-end;padding-top:10px;border-top:1px solid var(--border);">
+                  <button class="btn btn-r" onclick="srAdminClose()">Cancel</button>
+                  <button class="btn btn-o" onclick="srAdminSave()">💾 Save &amp; Publish</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+</div>
 
       <!-- ==================== UNIT STATUS ==================== -->
       <div id="page-units" class="page-section">
@@ -2652,6 +2485,12 @@ document.querySelectorAll('.tab-item').forEach(tab => {
 //  SITREP — FULL WEATHER, FIRE WEATHER, ADMIN ENGINE (v2)
 // ================================================================
 'use strict';
+// ================================================================
+//  SITREP JS — ISOLATED SCOPE (IIFE)
+// ================================================================
+(function() {
+'use strict';
+
 // ── CONSTANTS ────────────────────────────────────────────────
 const PW  = 'MCFR2026';
 const TTL = 4 * 60 * 60 * 1000; // 4-hour cache
@@ -3114,6 +2953,31 @@ function saveAll(){
 }
 $('modal').addEventListener('click',e=>{if(e.target.id==='modal')closeAdmin();});
 
+
+
+// Expose admin functions to global scope with sr_ prefix
+window.srAdminOpen    = openAdmin;
+window.srAdminClose   = closeAdmin;
+window.srAdminCheckPw = checkPw;
+window.srAdminSave    = saveAll;
+window.srAdminAddUnit = addUnit;
+window.srAdminAddIAP  = addIAP;
+window.srAdminAddTr   = addTr;
+window.srAdminAddCl   = addCl;
+
+// Expose init function
+window.srInit = function() {
+  render();
+  fetchWeather();
+  setTimeout(fetchFireWeather, 600);
+  setTimeout(fetchFDOT, 1200);
+};
+
+// Also run render immediately for non-weather content
+render();
+
+})(); // end sitrep IIFE
+
 // Override showPage to init SitRep on first visit
 const _origShowPage2 = typeof _origShowPage !== 'undefined' ? _origShowPage : showPage;
 const _srInitialized = { done: false };
@@ -3122,10 +2986,7 @@ showPage = function(page, el) {
   if (page === 'sitrep' && !_srInitialized.done) {
     _srInitialized.done = true;
     setTimeout(() => {
-      render();
-      fetchWeather();
-      setTimeout(fetchFireWeather, 600);
-      setTimeout(fetchFDOT, 1200);
+      if (typeof window.srInit === 'function') window.srInit();
     }, 100);
   }
 };
