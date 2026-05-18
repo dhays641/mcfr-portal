@@ -1049,12 +1049,12 @@ function renderRosterData(data) {
   // Calculate current shift (A/B/C) based on rotation
   // Reference: May 10, 2026 = C Shift
   function getCurrentShift() {
-    var refDate = new Date('2026-05-10');
+    var refDate = new Date('2026-05-17');
     var today = new Date();
     today.setHours(0,0,0,0);
     refDate.setHours(0,0,0,0);
     var daysDiff = Math.round((today - refDate) / 86400000);
-    var shifts = ['C','A','B']; // C on day 0, A on day 1, B on day 2, C on day 3...
+    var shifts = ['A','B','C']; // May 17 = A, May 18 = B, May 19 = C
     return shifts[((daysDiff % 3) + 3) % 3];
   }
   var currentShift = getCurrentShift();
