@@ -649,94 +649,9 @@ body::before { content:""; position:fixed; inset:0; background-image:linear-grad
 
 <div class="footer">Martin County Fire Rescue · Daily Situation Report · <span id="footer-ts"></span></div>
 
-<div class="overlay" id="modal">
-  <div class="modal">
-    <div class="mhdr"><span class="mtit">⚙ Admin Panel</span><button class="mcls" onclick="srAdminClose()">✕</button></div>
-    <div id="lview" class="lbox">
-      <h3>🔒 Admin Access</h3>
-      <p style="font-size:12px;color:var(--muted);margin-bottom:12px;">Enter password to edit the situation report.</p>
-      <input type="password" id="pw" placeholder="Password" onkeydown="if(event.key==='Enter')srAdminCheckPw()">
-      <div style="margin-top:10px;"><button class="btn btn-r" onclick="srAdminCheckPw()">Unlock</button></div>
-      <div class="pwerr" id="pwerr"></div>
-    </div>
-    <div id="eview" style="display:none;">
-      <div class="mbody">
-        <div class="msec"><div class="mstit">Critical Information</div><div class="fr"><label>Message</label><input type="text" id="e-crit" placeholder="Leave blank for None"></div></div>
-        <div class="msec"><div class="mstit">Contacts</div><div id="ced"></div></div>
-        <div class="msec"><div class="mstit">Fleet Board URL</div><div class="fr"><label>Link</label><input type="text" id="e-fleet" placeholder="https://..."></div></div>
-        <div class="msec"><div class="mstit">Apparatus Status</div><div id="aed"></div><button class="btn btn-g btn-sm" onclick="srAdminAddUnit()" style="margin-top:5px;">+ Add Unit</button></div>
-        <div class="msec">
-          <div class="mstit">Burn Status — Manual Fields</div>
-          <div class="fr"><label>Burn Authorization</label><select id="e-burn"><option value="YES">YES</option><option value="NO">NO</option><option value="RESTRICTED">RESTRICTED</option></select></div>
-          <div class="fr"><label>KBDI Mean</label><input type="text" id="e-kbdi-mean" placeholder="e.g. 402"></div>
-          <div class="fr"><label>KBDI Change</label><input type="text" id="e-kbdi-chg" placeholder="e.g. +7"></div>
-          <div class="fr"><label>KBDI Min/Max</label><input type="text" id="e-kbdi-mm" placeholder="e.g. 170/640"></div>
-          <div class="fr"><label>Fire Weather Risk</label>
-            <select id="e-risk"><option value="auto">-- Auto-Calculate --</option><option value="Low">Low</option><option value="Moderate">Moderate</option><option value="High">High</option><option value="Very High">Very High</option><option value="Extreme">Extreme</option></select>
-          </div>
-          <div class="refbox">
-            <div class="reflbl">Florida Forest Service Fire Weather Risk Criteria</div>
-            <table class="rtbl">
-              <tr><th>Level</th><th>KBDI</th><th>Min RH</th><th>Wind</th></tr>
-              <tr><td style="color:var(--green);font-weight:700;">Low</td><td>&lt;200</td><td>&gt;50%</td><td>&lt;10 mph</td></tr>
-              <tr style="background:#f8f9fb;"><td style="color:var(--yellow);font-weight:700;">Moderate</td><td>200–400</td><td>35–50%</td><td>10–15 mph</td></tr>
-              <tr><td style="color:var(--orange);font-weight:700;">High</td><td>400–500</td><td>25–35%</td><td>15–20 mph</td></tr>
-              <tr style="background:#f8f9fb;"><td style="color:var(--red);font-weight:700;">Very High</td><td>500–600</td><td>15–25%</td><td>20–25 mph</td></tr>
-              <tr><td style="color:#7f1d1d;font-weight:700;">Extreme</td><td>&gt;600</td><td>&lt;15%</td><td>&gt;25 mph</td></tr>
-            </table>
-            <p style="font-size:11px;color:var(--muted);margin-top:5px;font-style:italic;">Risk auto-calculates on Save using KBDI + NWS Min RH + wind. Select level above to override.</p>
-          </div>
+
         </div>
-        <div class="msec"><div class="mstit">Incident Action Plans</div><div id="ied"></div><button class="btn btn-g btn-sm" onclick="srAdminAddIAP()" style="margin-top:5px;">+ Add IAP Link</button></div>
-        <div class="msec"><div class="mstit">Training Links</div><div id="ted"></div><button class="btn btn-g btn-sm" onclick="srAdminAddTr()" style="margin-top:5px;">+ Add Training Link</button></div>
-        <div class="msec"><div class="mstit">Road Closures (Manual)</div><div id="cled"></div><button class="btn btn-g btn-sm" onclick="srAdminAddCl()" style="margin-top:5px;">+ Add Closure</button></div>
-        <div style="display:flex;gap:8px;justify-content:flex-end;padding-top:10px;border-top:1px solid var(--border);">
-          <button class="btn btn-r" onclick="srAdminClose()">Cancel</button>
-          <button class="btn btn-o" onclick="srAdminSave()">💾 Save &amp; Publish</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-        </div>
-        <!-- SitRep Admin Modal -->
-        <div class="overlay" id="sr-modal">
-          <div class="modal">
-            <div class="mhdr"><span class="mtit">⚙ SitRep Admin</span><button class="mcls" onclick="srAdminClose()">✕</button></div>
-            <div id="lview" class="lbox">
-              <h3>🔒 Admin Access</h3>
-              <p style="font-size:12px;color:var(--muted);margin-bottom:12px;">Enter password to edit the situation report.</p>
-              <input type="password" id="pw" placeholder="Password" onkeydown="if(event.key==='Enter')srAdminCheckPw()">
-              <div style="margin-top:10px;"><button class="btn btn-r" onclick="srAdminCheckPw()">Unlock</button></div>
-              <div class="pwerr" id="pwerr"></div>
-            </div>
-            <div id="eview" style="display:none;">
-              <div class="mbody">
-                <div class="msec"><div class="mstit">Critical Information</div><div class="fr"><label>Message</label><input type="text" id="e-crit" placeholder="Leave blank for None"></div></div>
-                <div class="msec"><div class="mstit">Contacts</div><div id="ced"></div></div>
-                <div class="msec"><div class="mstit">Fleet Board URL</div><div class="fr"><label>Link</label><input type="text" id="e-fleet" placeholder="https://..."></div></div>
-                <div class="msec"><div class="mstit">Apparatus Status</div><div id="aed"></div><button class="btn btn-g btn-sm" onclick="srAdminAddUnit()" style="margin-top:5px;">+ Add Unit</button></div>
-                <div class="msec">
-                  <div class="mstit">KBDI &amp; Burn Status</div>
-                  <div class="fr"><label>Burn Authorization</label><select id="e-burn"><option value="YES">YES</option><option value="NO">NO</option><option value="RESTRICTED">RESTRICTED</option></select></div>
-                  <div class="fr"><label>KBDI Mean</label><input type="text" id="e-kbdi-mean" placeholder="e.g. 402"></div>
-                  <div class="fr"><label>KBDI Change</label><input type="text" id="e-kbdi-chg" placeholder="e.g. +7"></div>
-                  <div class="fr"><label>KBDI Min/Max</label><input type="text" id="e-kbdi-mm" placeholder="e.g. 170/640"></div>
-                  <div class="fr"><label>Fire Weather Risk</label>
-                    <select id="e-risk"><option value="auto">-- Auto-Calculate --</option><option value="Low">Low</option><option value="Moderate">Moderate</option><option value="High">High</option><option value="Very High">Very High</option><option value="Extreme">Extreme</option></select>
-                  </div>
-                </div>
-                <div class="msec"><div class="mstit">Incident Action Plans</div><div id="ied"></div><button class="btn btn-g btn-sm" onclick="srAdminAddIAP()" style="margin-top:5px;">+ Add IAP Link</button></div>
-                <div class="msec"><div class="mstit">Training Links</div><div id="ted"></div><button class="btn btn-g btn-sm" onclick="srAdminAddTr()" style="margin-top:5px;">+ Add Training Link</button></div>
-                <div class="msec"><div class="mstit">Road Closures (Manual)</div><div id="cled"></div><button class="btn btn-g btn-sm" onclick="srAdminAddCl()" style="margin-top:5px;">+ Add Closure</button></div>
-                <div style="display:flex;gap:8px;justify-content:flex-end;padding-top:10px;border-top:1px solid var(--border);">
-                  <button class="btn btn-r" onclick="srAdminClose()">Cancel</button>
-                  <button class="btn btn-o" onclick="srAdminSave()">💾 Save &amp; Publish</button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        
       </div>
 
       <!-- UNIT STATUS -->
@@ -862,7 +777,7 @@ body::before { content:""; position:fixed; inset:0; background-image:linear-grad
         <div class="panel full-row">
           <div class="panel-header">
             <div class="panel-title"><span class="icon">📢</span> Department Announcements</div>
-            <button id="ann-manage-btn" style="background:rgba(201,168,76,0.15);border:1px solid rgba(201,168,76,0.3);border-radius:4px;padding:4px 12px;color:var(--gold);font-size:11px;cursor:pointer;font-weight:600;font-family:'Rajdhani',sans-serif;letter-spacing:1px">⚙ MANAGE</button>
+            <button id="ann-manage-btn" onclick="openAnnAdmin()" style="background:rgba(201,168,76,0.15);border:1px solid rgba(201,168,76,0.3);border-radius:4px;padding:4px 12px;color:var(--gold);font-size:11px;cursor:pointer;font-weight:600;font-family:'Rajdhani',sans-serif;letter-spacing:1px">⚙ MANAGE</button>
           </div>
           <div id="full-announcements"></div>
         </div>
